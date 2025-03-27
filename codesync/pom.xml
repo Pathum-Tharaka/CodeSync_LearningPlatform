@@ -90,7 +90,6 @@
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
-            <version>8.2.0</version> <!-- Correct Version -->
             <scope>runtime</scope>
         </dependency>
 
