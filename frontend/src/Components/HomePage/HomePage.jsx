@@ -6,23 +6,27 @@ import Profile from "../Profile/Profile";
 import { Route, Routes } from "react-router-dom";
 
 const HomePage = () => {
-  return (
-    <Grid container xs={12} className="px-5 lg:px-36 justify-between">
-      <Grid item xs={0} lg={0} className="relative hidden lg:block">
-        <Navigation />
-      </Grid>
-      <Grid item xs={12} lg={6} className="relative hidden lg:block ">
-        <Routes>
-          <Route path="/" element={<HomeSection />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/:id" element={<Profile />} />
-        </Routes>
-      </Grid>
-      <Grid item xs={0} lg={3} className="relative hidden lg:block">
-        <p className="text-center">Grid 3</p>
-      </Grid>
-    </Grid>
-  );
-};
+    return (
+      <Grid container spacing={12} className="px-5 lg:px-20">
+        {/* Navigation - hidden on mobile, takes 3/12 columns on large screens */}
+        <Grid item lg={3} className="hidden lg:block">
+          <Navigation />
+        </Grid>
 
+        {/* Main content - takes full width on mobile, 6/12 columns on large screens */}
+        <Grid item xs={12} lg={6} >
+          <HomeSection />
+        </Grid>
+
+        {/* Right sidebar - hidden on mobile, takes 3/12 columns on large screens */}
+        <Grid item lg={3} className="hidden lg:block">
+          <div className="bg-gray-50 p-4 rounded">
+            <p className='text-center'>Grid 3</p>
+            {/* Add your right sidebar content here */}
+          </div>
+        </Grid>
+      </Grid>
+    );
+  }
+  
 export default HomePage;
