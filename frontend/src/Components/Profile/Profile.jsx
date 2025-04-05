@@ -20,7 +20,7 @@ const Profile = () => {
       <section className={"z-50- flex items-center sticky top-0 bg-opacity-95"}>
         <KeyboardBackspaceIcon
           className="cursor-pointer"
-          onclick={handleBack}
+          onClick={handleBack}
         />
         <h1 className="py-5 text-xl font-bold opacity-90 ml-5">Profile</h1>
       </section>
@@ -44,17 +44,18 @@ const Profile = () => {
           {true ? (
             <Button
               onClick={handleOpenProfileModel}
-              variants="contained"
+              variant="contained"
               sx={{ borderRadius: "20px" }}
             >
               Edit Profile
             </Button>
           ) : (
             <Button
-              onClick={{ handleFollowUser }}
+              onClick={handleFollowUser}
               sx={{ borderRadius: "20px" }}
+              variant="contained"
             >
-              Edit Profile
+              {true? "Follow": "Following"}
             </Button>
           )}
         </div>
