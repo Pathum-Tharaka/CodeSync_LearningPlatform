@@ -10,17 +10,17 @@ const Profile = () => {
     navigate(-1);
   };
   const handleOpenProfileModel = () => {
-    console.log("open profile model")
-  }
+    console.log("open profile model");
+  };
   const handleFollowUser = () => {
-        console.log("follow user")
-  }
+    console.log("follow user");
+  };
   return (
     <div>
       <section className={"z-50- flex items-center sticky top-0 bg-opacity-95"}>
         <KeyboardBackspaceIcon
           className="cursor-pointer"
-          onclick={handleBack}
+          onClick={handleBack}
         />
         <h1 className="py-5 text-xl font-bold opacity-90 ml-5">Profile</h1>
       </section>
@@ -41,11 +41,23 @@ const Profile = () => {
             src="https://avatars.githubusercontent.com/u/183508853?s=200&v=4"
             sx={{ width: "10rem", height: "10rem", border: "4px solid white" }}
           />
-
-          <Button onClick={handleOpenProfileModel} 
-          variants="contained" sx={{borderRadius:"20px"}}>Edit Profile</Button>
-
-          <Button onClick={{handleFollowUser}} sx={{borderRadius:"20px"}}>Edit Profile</Button>
+          {true ? (
+            <Button
+              onClick={handleOpenProfileModel}
+              variant="contained"
+              sx={{ borderRadius: "20px" }}
+            >
+              Edit Profile
+            </Button>
+          ) : (
+            <Button
+              onClick={handleFollowUser}
+              sx={{ borderRadius: "20px" }}
+              variant="contained"
+            >
+              {true? "Follow": "Following"}
+            </Button>
+          )}
         </div>
       </section>
     </div>
