@@ -11,8 +11,8 @@ const Profile = () => {
   return (
     <div>
     <section className={'z-50- flex items-center sticky top-0 bg-opacity-95'}>
-        <KeyboardBackspaceIcon className='text-white cursor-pointer' fontSize='large'/>
-        <h1 className='text-white text-2xl font-bold'>Profile</h1>
+        <KeyboardBackspaceIcon className='cursor-pointer' onclick={handleBack}/>
+        <h1 className='py-5 text-xl font-bold opacity-90 ml-5'>Profile</h1>
     </section>
       
     </div>
