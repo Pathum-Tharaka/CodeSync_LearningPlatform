@@ -72,7 +72,9 @@ const Profile = () => {
           </div>
           <p className="text-gray-500">@softwizards</p>
         </div>
-        <div></div>
+        <div className="mt-2 spacy-y-3">
+          <p>Hello, If you want to learn programming with CodeSync, you will find coding learning material on our website.</p>
+        </div>
       </section>
     </div>
   );
