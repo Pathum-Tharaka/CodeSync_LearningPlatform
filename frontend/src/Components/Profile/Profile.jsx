@@ -2,13 +2,17 @@ import React from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
-import { Button } from "@mui/material";
+import { Button,Tab,Tabs,Box} from "@mui/material";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
+import TweetCard from "../HomeSection/TweetCard";
+import ProfileModal from "./ProfileModel";
+
 
 const Profile = () => {
+  const [tabvalue, setTabValue] = useState("1");
   const navigate = useNavigate();
   const handleBack = () => {
     navigate(-1);
@@ -19,6 +23,11 @@ const Profile = () => {
   const handleFollowUser = () => {
     console.log("follow user");
   };
+
+  const handleTabChange = (event, newValue) => {
+    console.log(newValue);
+  };
+  
   return (
     <div>
       <section className={"z-50- flex items-center sticky top-0 bg-opacity-95"}>
@@ -112,7 +121,7 @@ const Profile = () => {
           <TabContext value={tabvalue}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList
-                onChange={handleChange}
+                onChange={handleTabChange}
                 aria-label="lab API tabs example"
               >
                 <Tab label="Tweets" value="1" />
