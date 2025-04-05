@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
-import { IconButton } from "@mui/material";
+import { IconButton, TextField } from "@mui/material";
 import { useFormik } from "formik";
 
 const style = {
@@ -23,6 +23,7 @@ const style = {
 
 export default function ProfileModal() {
   const [open, setOpen] = React.useState(false);
+  const [uploadImage, setUploadImage] = React.useState(null);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -43,14 +44,11 @@ export default function ProfileModal() {
   });
 
   const handleImageChange = (event) => {
+    setUploadImage(true);
+    const {name} = event.target;
     const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        formik.setFieldValue("image", reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
+    formik.setFieldValue(name, file);
+    setUploadImage(false);
   }
 
   return (
@@ -92,6 +90,19 @@ export default function ProfileModal() {
 
 
                 </div>
+              </div>
+              <div className="space-y-3">
+                <TextField
+                    id="fullName"
+                    name="fullName"
+                    label="Full Name"
+                    value={formik.values.fullName}
+                    onChange={formik.handleChange}
+                    error={formik.touched.fullName && Boolean(formik.errors.fullName)}
+                    helperText={formik.touched.fullName && formik.errors.fullName}
+                />     
+                 
+
               </div>
             </div>
           </form>
