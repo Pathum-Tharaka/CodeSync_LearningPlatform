@@ -1,22 +1,28 @@
-import React from 'react';
-import Grid from '@mui/material/Grid';
-import Navigation from '../Navigation/Navigation';
-import HomeSection from '../HomeSection/HomeSection';
+import React from "react";
+import Grid from "@mui/material/Grid";
+import Navigation from "../Navigation/Navigation";
+import HomeSection from "../HomeSection/HomeSection";
+import Profile from "../Profile/Profile";
+import { Route, Routes } from "react-router-dom";
 
 const HomePage = () => {
-    return (
-      <Grid container xs={12} className="px-5 lg:px-36 justify-between">
-        <Grid item xs={0} lg={0} className="relative hidden lg:block">
-          <Navigation/>
-        </Grid >
-        <Grid item xs={12} lg={6} className="relative hidden lg:block ">
-          <HomeSection/>
-        </Grid>
-        <Grid item xs={0} lg={3} className="relative hidden lg:block">
-        <p className='text-center'>Grid 3</p>
-        </Grid>
+  return (
+    <Grid container xs={12} className="px-5 lg:px-36 justify-between">
+      <Grid item xs={0} lg={0} className="relative hidden lg:block">
+        <Navigation />
       </Grid>
-    );
-  }
-  
-export default HomePage
+      <Grid item xs={12} lg={6} className="relative hidden lg:block ">
+        <Routes>
+          <Route path="/" element={<HomeSection />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:id" element={<Profile />} />
+        </Routes>
+      </Grid>
+      <Grid item xs={0} lg={3} className="relative hidden lg:block">
+        <p className="text-center">Grid 3</p>
+      </Grid>
+    </Grid>
+  );
+};
+
+export default HomePage;
