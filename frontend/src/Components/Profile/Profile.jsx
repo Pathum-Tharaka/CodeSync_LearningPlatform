@@ -2,11 +2,15 @@ import React from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
+
 const Profile = () => {
   const navigate = useNavigate();
   const handleBack = () => {
     navigate(-1);
   };
+  const handleOpenProfileModel = () => {
+    console.log("open profile model")
+  }
 
   return (
     <div>
@@ -34,6 +38,8 @@ const Profile = () => {
             src="https://avatars.githubusercontent.com/u/183508853?s=200&v=4"
             sx={{ width: "10rem", height: "10rem", border: "4px solid white" }}
           />
+
+          <button onClick={handleOpenProfileModel} variants="contained" sx={{borderRadius:"20px"}}>Edit Profile</button>
         </div>
       </section>
     </div>
