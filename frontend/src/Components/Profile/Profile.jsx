@@ -8,7 +8,6 @@ const Profile = () => {
         navigate(-1);
     };
 
-const Profile = () => {
   return (
     <div>
     <section className={'z-50- flex items-center sticky top-0 bg-opacity-95'}>
@@ -18,6 +17,5 @@ const Profile = () => {
       
     </div>
   )
-}
 }
 export default Profile
