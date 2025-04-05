@@ -2,6 +2,7 @@ import React from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
+import { Button } from "@mui/material";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -11,7 +12,9 @@ const Profile = () => {
   const handleOpenProfileModel = () => {
     console.log("open profile model")
   }
-
+  const handleFollowUser = () => {
+        console.log("follow user")
+  }
   return (
     <div>
       <section className={"z-50- flex items-center sticky top-0 bg-opacity-95"}>
@@ -39,7 +42,10 @@ const Profile = () => {
             sx={{ width: "10rem", height: "10rem", border: "4px solid white" }}
           />
 
-          <button onClick={handleOpenProfileModel} variants="contained" sx={{borderRadius:"20px"}}>Edit Profile</button>
+          <Button onClick={handleOpenProfileModel} 
+          variants="contained" sx={{borderRadius:"20px"}}>Edit Profile</Button>
+
+          <Button onClick={{handleFollowUser}} sx={{borderRadius:"20px"}}>Edit Profile</Button>
         </div>
       </section>
     </div>
