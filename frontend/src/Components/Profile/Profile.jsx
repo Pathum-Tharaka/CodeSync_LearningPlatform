@@ -3,6 +3,9 @@ import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import { Button } from "@mui/material";
+import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -64,7 +67,7 @@ const Profile = () => {
             <h1 className="font-bold text-lg">Soft Wizards</h1>
             {true && (
               <img
-                className="w-4 h-4 ml-2"
+                className="w-4 h-4 ml-2 mr-2 mt-2"
                 src="https://abs.twimg.com/responsive-web/client-web/verification-card-v2@3x.8ebee01a.png"
                 alt="verified"
               />
@@ -73,7 +76,34 @@ const Profile = () => {
           <p className="text-gray-500">@softwizards</p>
         </div>
         <div className="mt-2 spacy-y-3">
-          <p>Hello, If you want to learn programming with CodeSync, you will find coding learning material on our website.</p>
+          <p>
+            Hello, If you want to learn programming with CodeSync, you will find
+            coding learning material on our website.
+          </p>
+          <div className="flex item-center text-gray-500">
+            <BusinessCenterIcon />
+            <p className="ml-2">Education</p>
+          </div>
+          <div className="flex item-center text-gray-500">
+            <LocationOnIcon />
+            <p className="ml-2">Sri Lanka</p>
+          </div>
+          <div className="flex item-center text-gray-500">
+            <CalendarMonthIcon />
+            <p className="ml-2">Joined Jun 2022</p>
+          </div>
+
+          
+          <div className="flex item-center space-x-5">
+             <div className="flex item-center space-x-1 font-semibold">
+                <span>590</span>
+                <span className="text-gray-500">Following</span>
+             </div>
+              <div className="flex item-center space-x-1 font-semibold">
+                <span>590</span>
+                <span className="text-gray-500">Followers</span>
+              </div>
+          </div>
         </div>
       </section>
     </div>
