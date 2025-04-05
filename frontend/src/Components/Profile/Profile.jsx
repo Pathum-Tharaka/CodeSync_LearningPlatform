@@ -12,7 +12,7 @@ import ProfileModal from "./ProfileModel";
 
 
 const Profile = () => {
-  const [tabvalue, setTabValue] = useState("1");
+  const [tabValue, setTabValue] = useState("1");
   const navigate = useNavigate();
   const handleBack = () => {
     navigate(-1);
@@ -26,6 +26,13 @@ const Profile = () => {
 
   const handleTabChange = (event, newValue) => {
     console.log(newValue);
+
+    if (newValue===4){
+      console.log("likes twits")
+    }
+    else if(newValue===1){
+      console.log("users twits")
+    }
   };
   
   return (
@@ -118,7 +125,7 @@ const Profile = () => {
 
       <section className="py-5">
         <Box sx={{ width: "100%", typography: "body1" }}>
-          <TabContext value={tabvalue}>
+          <TabContext value={tabValue}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList
                 onChange={handleTabChange}
@@ -127,7 +134,7 @@ const Profile = () => {
                 <Tab label="Tweets" value="1" />
                 <Tab label="Replies" value="2" />
                 <Tab label="Media" value="3" />
-                <Tab label="Likes" value="3" />
+                <Tab label="Likes" value="4" />
               </TabList>
             </Box>
             <TabPanel value="1">
