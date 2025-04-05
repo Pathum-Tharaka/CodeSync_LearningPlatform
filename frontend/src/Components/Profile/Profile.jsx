@@ -10,11 +10,11 @@ const Profile = () => {
     navigate(-1);
   };
   const handleOpenProfileModel = () => {
-    console.log("open profile model")
-  }
+    console.log("open profile model");
+  };
   const handleFollowUser = () => {
-        console.log("follow user")
-  }
+    console.log("follow user");
+  };
   return (
     <div>
       <section className={"z-50- flex items-center sticky top-0 bg-opacity-95"}>
@@ -41,11 +41,22 @@ const Profile = () => {
             src="https://avatars.githubusercontent.com/u/183508853?s=200&v=4"
             sx={{ width: "10rem", height: "10rem", border: "4px solid white" }}
           />
-
-          <Button onClick={handleOpenProfileModel} 
-          variants="contained" sx={{borderRadius:"20px"}}>Edit Profile</Button>
-
-          <Button onClick={{handleFollowUser}} sx={{borderRadius:"20px"}}>Edit Profile</Button>
+          {true ? (
+            <Button
+              onClick={handleOpenProfileModel}
+              variants="contained"
+              sx={{ borderRadius: "20px" }}
+            >
+              Edit Profile
+            </Button>
+          ) : (
+            <Button
+              onClick={{ handleFollowUser }}
+              sx={{ borderRadius: "20px" }}
+            >
+              Edit Profile
+            </Button>
+          )}
         </div>
       </section>
     </div>
