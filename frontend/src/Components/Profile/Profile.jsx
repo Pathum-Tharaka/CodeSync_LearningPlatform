@@ -55,10 +55,24 @@ const Profile = () => {
               sx={{ borderRadius: "20px" }}
               variant="contained"
             >
-              {true? "Follow": "Following"}
+              {true ? "Follow" : "Following"}
             </Button>
           )}
         </div>
+        <div>
+          <div className="flex item-center">
+            <h1 className="font-bold text-lg">Soft Wizards</h1>
+            {true && (
+              <img
+                className="w-4 h-4 ml-2"
+                src="https://abs.twimg.com/responsive-web/client-web/verification-card-v2@3x.8ebee01a.png"
+                alt="verified"
+              />
+            )}
+          </div>
+          <p className="text-gray-500">@softwizards</p>
+        </div>
+        <div></div>
       </section>
     </div>
   );
