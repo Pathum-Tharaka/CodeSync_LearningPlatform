@@ -2,7 +2,8 @@ import React from "react";
 import Grid from "@mui/material/Grid";
 import Navigation from "../Navigation/Navigation";
 import HomeSection from "../HomeSection/HomeSection";
-
+import { Route, Routes } from "react-router-dom";
+import Profile from "../Profile/Profile";
 
 const HomePage = () => {
     return (
