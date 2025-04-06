@@ -14,7 +14,11 @@ const HomePage = () => {
 
         {/* Main content - takes full width on mobile, 6/12 columns on large screens */}
         <Grid item xs={12} lg={6} >
-          <HomeSection />
+        <Routes>
+          <Route path="/" element={<HomeSection />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:id" element={<Profile />} />
+        </Routes>
         </Grid>
 
         {/* Right sidebar - hidden on mobile, takes 3/12 columns on large screens */}
