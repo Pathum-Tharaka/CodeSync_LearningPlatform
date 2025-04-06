@@ -39,7 +39,7 @@ const samplePosts = [
     isLiked: true
   },
   {
-    id: 2,
+    id: 3,
     username: 'janedoe',
     displayName: 'Jane Doe',
     avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330',
@@ -50,7 +50,7 @@ const samplePosts = [
     isLiked: true
   },
   {
-    id: 2,
+    id: 4,
     username: 'janedoe',
     displayName: 'Jane Doe',
     avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330',
@@ -61,7 +61,7 @@ const samplePosts = [
     isLiked: true
   },
   {
-    id: 2,
+    id: 5,
     username: 'janedoe',
     displayName: 'Jane Doe',
     avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330',
@@ -140,7 +140,7 @@ const HomeSection = () => {
                 <div>
                   <textarea 
                     placeholder="What's on your mind?" 
-                    className="w-full border-none outline-none text-xl bg-transparent resize-none min-h-[80px]"
+                    className=" mt-2 w-full border-none outline-none text-xl bg-transparent resize-none min-h-[80px]"
                     {...formik.getFieldProps('content')}
                   />
                   {formik.touched.content && formik.errors.content && (
