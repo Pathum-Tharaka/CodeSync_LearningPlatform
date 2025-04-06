@@ -147,8 +147,10 @@ const Profile = () => {
           </TabContext>
         </Box>
       </section>
-      
+      <section>
       <ProfileModal open={openProfileModal} handleClose={handleClose} />
+      </section>
+      
     </div>
   );
 };
