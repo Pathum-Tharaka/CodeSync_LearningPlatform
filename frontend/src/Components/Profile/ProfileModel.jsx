@@ -69,7 +69,7 @@ export default function ProfileModal({ open, handleClose }) {
               Save
             </Button>
           </div>
-          <div className="overflow-y-scroll overflow-x-hidden h-[80vh]">
+          <div className="hideScrollBar overflow-y-scroll overflow-x-hidden h-[80vh]">
             <React.Fragment>
               <div className="w-full">
                 <div className="relative">

@@ -21,16 +21,15 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public class AppConfig {
 
-    private final PasswordEncoder passwordEncoder;
-
-    AppConfig(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
+   
+    @SuppressWarnings("removal")
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests(Authorize -> Authorize.requestMatchers("/api/**").authenticated()
-                        .anyRequest().permitAll()).addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
+                        .anyRequest().permitAll()
+                        ).addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
                 .csrf().disable()
                 .cors().configurationSource(CorsConfigurationSource())
                 .and()
@@ -51,14 +50,16 @@ public class AppConfig {
                 cfg.setAllowedMethods(Collections.singletonList("*"));
                 cfg.setAllowCredentials(true);
                 cfg.setAllowedHeaders(Collections.singletonList("*"));
-                cfg.setExposedHeaders(Collections.singletonList("*"));
+                cfg.setExposedHeaders(Arrays.asList("Authorization"));
                 cfg.setMaxAge(3600L);
                 return cfg;
             }
         };
     }
 
-
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
