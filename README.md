@@ -44,9 +44,9 @@ frontend/ (React) ├── public/ ├── src/ │ ├── components/ │
 ### Backend
 
 cd backend
-./mvnw spring-boot:run
+mvn spring-boot:run
 
-###Frontend
+### Frontend
 
 cd frontend
 npm install
