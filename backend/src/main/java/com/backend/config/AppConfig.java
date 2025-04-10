@@ -63,4 +63,10 @@ public class AppConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+    }
+
+
 }
