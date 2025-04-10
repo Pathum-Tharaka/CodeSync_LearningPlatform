@@ -1,4 +1,4 @@
-package com.backend.backend;
+package com.backend.config;
 
 import java.io.IOException;
 import java.util.List;
