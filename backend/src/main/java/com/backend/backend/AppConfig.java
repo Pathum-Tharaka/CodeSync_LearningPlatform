@@ -14,53 +14,51 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
-
 public class AppConfig {
 
-   
-    @SuppressWarnings("removal")
+    // Define the security filter chain for HTTP security configuration
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeHttpRequests(Authorize -> Authorize.requestMatchers("/api/**").authenticated()
-                        .anyRequest().permitAll()
-                        ).addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
-                .csrf().disable()
-                .cors().configurationSource(CorsConfigurationSource())
-                .and()
-                .httpBasic().and().formLogin();
-                
-                
+        http
+            // Define which endpoints require authentication and which are publicly accessible
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/**").authenticated() // Protect all /api/** endpoints
+                .anyRequest().permitAll() // Allow all other requests without authentication
+            )
+            // Add JWT token validator filter before BasicAuthenticationFilter
+            .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
+            // Set session management to stateless for token-based authentication
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            // Disable CSRF protection (useful for stateless APIs with JWT)
+            .csrf(csrf -> csrf.disable())
+            // Enable CORS with a custom configuration
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()));
+
         return http.build();
     }
 
-    private CorsConfigurationSource CorsConfigurationSource() {
+    // Bean for CORS configuration with allowed origins, methods, and credentials
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // Allow requests from localhost:3000
+        config.setAllowedMethods(Collections.singletonList("*")); // Allow all HTTP methods
+        config.setAllowCredentials(true); // Allow credentials (cookies, authorization headers)
+        config.setAllowedHeaders(Collections.singletonList("*")); // Allow all headers
+        config.setExposedHeaders(Arrays.asList("Authorization")); // Expose the Authorization header
+        config.setMaxAge(3600L); // Cache pre-flight request results for 1 hour
 
-        return new CorsConfigurationSource() {
-            
-            @Override
-            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-                CorsConfiguration cfg  = new CorsConfiguration();
-                cfg.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-                cfg.setAllowedMethods(Collections.singletonList("*"));
-                cfg.setAllowCredentials(true);
-                cfg.setAllowedHeaders(Collections.singletonList("*"));
-                cfg.setExposedHeaders(Arrays.asList("Authorization"));
-                cfg.setMaxAge(3600L);
-                return cfg;
-            }
-        };
+        // Register the CORS configuration for all endpoints
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
-
+    // Bean to encode passwords using BCrypt
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
