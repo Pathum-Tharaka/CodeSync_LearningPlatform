@@ -1,3 +1,9 @@
 {
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.compile.nullAnalysis.mode": "automatic",
+    "css.validate": false,
+    "tailwindCSS.includeLanguages": {
+    "plaintext": "html",
+    "css": "css"
+}
+
 }
