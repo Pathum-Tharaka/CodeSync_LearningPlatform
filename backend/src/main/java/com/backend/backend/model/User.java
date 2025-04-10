@@ -1,4 +1,4 @@
-package com.backend.model;
+package com.backend.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;

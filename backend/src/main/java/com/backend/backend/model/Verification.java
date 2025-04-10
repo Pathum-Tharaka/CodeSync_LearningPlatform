@@ -1,4 +1,4 @@
-package com.backend.model;
+package com.backend.backend.model;
 
 import java.time.LocalDateTime;
 import lombok.Data;

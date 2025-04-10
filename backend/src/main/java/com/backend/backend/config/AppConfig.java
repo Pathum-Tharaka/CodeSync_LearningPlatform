@@ -1,4 +1,4 @@
-package com.backend.config;
+package com.backend.backend.config;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -62,10 +62,6 @@ public class AppConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
     }
 
 
