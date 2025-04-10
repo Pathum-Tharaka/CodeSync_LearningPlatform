@@ -24,7 +24,7 @@ import com.backend.service.CustomUserDetailsServiceImplementation;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
@@ -41,7 +41,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> createUserHandler(@RequestBody User user) throws UserException {
-
+        
         String email = user.getEmail();
         String password = user.getPassword();
         String fullName = user.getFullName();
