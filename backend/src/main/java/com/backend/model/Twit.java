@@ -1,4 +1,4 @@
-package com.backend.backend.model;
+package com.backend.model;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.backend.backend.config;
+package com.backend.config;
 
 import java.util.Arrays;
 import java.util.Collections;

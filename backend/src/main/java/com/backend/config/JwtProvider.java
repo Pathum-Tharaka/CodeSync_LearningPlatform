@@ -1,4 +1,4 @@
-package com.backend.backend.config;
+package com.backend.config;
 
 import java.util.Date;
 import javax.crypto.SecretKey;
