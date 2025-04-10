@@ -31,7 +31,7 @@ public class User {
     private String backgroundImage;
     private String bio;
     private boolean req_user;
-    private boolean req_with_google;
+    private boolean login_with_google;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -50,4 +50,6 @@ public class User {
     @JsonIgnore
     @ManyToMany
     private List<User> followings = new ArrayList<>();
+
+    
 }
