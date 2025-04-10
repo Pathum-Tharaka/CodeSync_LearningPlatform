@@ -41,7 +41,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> createUserHandler(@RequestBody User user) throws UserException {
-        
+        System.out.println("user: " + user);
         String email = user.getEmail();
         String password = user.getPassword();
         String fullName = user.getFullName();
