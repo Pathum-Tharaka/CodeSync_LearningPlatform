@@ -1,6 +1,6 @@
 package com.backend.config;
 
 public class JwtConstant {
-    public static final String SECRET_KEY = "e2501bc9e1862d31dba4f25e190d9551c9499bd9d7f8f9ea3ff82a1bf656b0214d97b9d6c08605ee3d40add7b8a96c90015b59c26a4737686a9d9f3b62d7ef22";
+    public static final String SECRET_KEY = "1ea02665e01bda657797abe2ff565ba1296113e815de4ef7be6e2546b3777b736ff077620000d942d3bca577bcac483efe20d840ea9776488f9187656e1837f7";
     public static final String JWT_HEADER = "Authorization";
 }
