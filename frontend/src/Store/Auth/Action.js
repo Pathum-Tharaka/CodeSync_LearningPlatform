@@ -30,16 +30,17 @@ export const registerUser = (registerData) => async (dispatch) => {
       } 
   }   
   
-  export const profileUser = (registerData) => async (dispatch) => {
+  export const getUserProfile= (jwt) => async (dispatch) => {
     try {
-      const { data } = await axios.post(`${API_BASE_URL}/auth/signin`, registerData);
-      if (data.jwt) {
-          localStorage.setItem("jwt", data.jwt)   
-      }
-      dispatch({ type: "REGISTER_USER_SUCCESS", payload: data })
+      const { data } = await axios.post(`${API_BASE_URL}/api/users/profile`,{
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+      dispatch({ type: "GET_USER_PROFILE_SUCCESS", payload: data })
       } catch (error) {
           console.log("error", error);
-          dispatch({ type: "REGISTER_USER_FAILURE", payload: error.message })
+          dispatch({ type: "GET_USER_PROFILE_FAILURE", payload: error.message })
       } 
   }   
   
