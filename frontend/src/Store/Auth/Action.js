@@ -9,10 +9,10 @@ export const loginUser = (loginData) => async (dispatch) => {
         localStorage.setItem("jwt", data.jwt);
         
     }
-    dispatch({ type: "LOGIN_USER_SUCCESS", payload: data });
+    dispatch({ type: LOGIN_USER_SUCCESS, payload: data });
     } catch (error) {
         console.log("error", error);
-        dispatch({ type: "LOGIN_USER_FAILURE", payload: error.message });
+        dispatch({ type: LOGIN_USER_FAILURE, payload: error.message });
     } 
 }   
 
@@ -23,10 +23,10 @@ export const registerUser = (registerData) => async (dispatch) => {
       if (data.jwt) {
           localStorage.setItem("jwt", data.jwt)   
       }
-      dispatch({ type: "REGISTER_USER_SUCCESS", payload: data })
+      dispatch({ type: REGISTER_USER_SUCCESS, payload: data })
       } catch (error) {
           console.log("error", error);
-          dispatch({ type: "REGISTER_USER_FAILURE", payload: error.message })
+          dispatch({ type: REGISTER_USER_FAILURE, payload: error.message })
       } 
   }   
   
@@ -37,10 +37,10 @@ export const registerUser = (registerData) => async (dispatch) => {
           Authorization: `Bearer ${jwt}`,
         }
       })
-      dispatch({ type: "GET_USER_PROFILE_SUCCESS", payload: data })
+      dispatch({ type: GET_USER_PROFILE_SUCCESS, payload: data })
       } catch (error) {
           console.log("error", error);
-          dispatch({ type: "GET_USER_PROFILE_FAILURE", payload: error.message })
+          dispatch({ type: GET_USER_PROFILE_FAILURE, payload: error.message })
       } 
   }   
   
