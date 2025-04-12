@@ -1,3 +1,4 @@
+import{LOGIN_USER_REQUEST,LOGIN_USER_SUCCESS,LOGIN_USER_FAILURE,REGISTER_USER_REQUEST,REGISTER_USER_SUCCESS,REGISTER_USER_FAILURE,GET_USER_PROFILE_REQUEST,GET_USER_PROFILE_SUCCESS,GET_USER_PROFILE_FAILURE} from './ActionType.js'
 // Initial state of the authentication slice of the Redux store
 const initialState = {
     user: null,       // Holds user profile data after successful login/profile fetch
