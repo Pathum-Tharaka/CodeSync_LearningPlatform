@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL } from "../../config/api";
-import { LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE } from "./ActionType";
+import { LOGIN_USER_FAILURE, LOGIN_USER_SUCCESS, REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS, GET_USER_PROFILE_FAILURE, GET_USER_PROFILE_SUCCESS } from "./ActionType";
 
 export const loginUser = (loginData) => async (dispatch) => {
   try {
