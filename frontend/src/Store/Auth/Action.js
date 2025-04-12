@@ -35,8 +35,8 @@ export const registerUser = (registerData) => async (dispatch) => {
       const { data } = await axios.post(`${API_BASE_URL}/api/users/profile`,{
         headers: {
           Authorization: `Bearer ${jwt}`,
-        },
-      });
+        }
+      })
       dispatch({ type: "GET_USER_PROFILE_SUCCESS", payload: data })
       } catch (error) {
           console.log("error", error);
