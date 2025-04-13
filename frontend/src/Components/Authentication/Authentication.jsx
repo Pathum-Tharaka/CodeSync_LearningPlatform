@@ -1,36 +1,78 @@
 import React from "react";
 import { Grid } from "@mui/material";
+import { GoogleLogin } from "@react-oauth/google";
+import Button from "@mui/material/Button";
 
 const Authentication = () => {
   return (
-    <div>
-      <Grid className="overflow-y-hidden" container>
-        <Grid className="hidden lg:block" item lg={7}>
-          <img
-            className="w-full h-screen"
-            src="https://abs.twimg.com/sticky/illustrations/lohp_en_1302x955.png"
-            alt=""
-          />
+    <div className=" overflow-hidden">
+
+        {/* Right Side - Form */}
+        <Grid item xs={12} lg={5} className="p-4 flex flex-col justify-center">
+          <div className="max-w-md mx-auto w-full">
+            {/* Mobile Header */}
+            <div className="lg:hidden mb-8 text-center">
+              <h1 className="font-bold text-4xl mb-4">Happening Now</h1>
+              <h2 className="font-bold text-2xl">Join Codesync Today</h2>
+            </div>
+
+            {/* Desktop Header (hidden on mobile) */}
+            <div className="hidden lg:block mb-8">
+              <h1 className="font-bold text-3xl mb-4">Join Codesync Today</h1>
+            </div>
+
+            <div className="space-y-4">
+              <div className="w-full">
+                <GoogleLogin width="100%" />
+              </div>
+              
+              <p className="py-2 text-center">OR</p>
+
+              <Button
+                fullWidth
+                variant="contained"
+                size="large"
+                sx={{
+                  borderRadius: "29px",
+                  py: "10px",
+                  textTransform: "none",
+                  fontSize: "1rem",
+                  fontWeight: "bold"
+                }}
+              >
+                Create Account
+              </Button>
+              
+              <div>
+                <p className="text-xs text-gray-600 mt-2">
+                  By signing up, you agree to the Terms of Service and Privacy
+                  Policy, including Cookie Use.
+                </p>
+              </div>
+              
+              <div className="mt-10">
+                <h1 className="font-bold text-lg mb-4">
+                  Already have an account?
+                </h1>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  size="large"
+                  sx={{
+                    borderRadius: "29px",
+                    py: "10px",
+                    textTransform: "none",
+                    fontSize: "1rem",
+                    fontWeight: "bold"
+                  }}
+                >
+                  Sign In
+                </Button>
+              </div>
+            </div>
+          </div>
         </Grid>
-        <div className="absolute top=[26%] left-[19%]">
-          <svg
-            height="300"
-            width="300"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            class="r-jw1i3a r-4qtqp9 r-yyyyoo r-labphf
-            r-1777fci r-dnmrzs r-494qqr r-bnwqim r-lplcrui r-lrvibr"
-          >
-            <g>
-              <path
-                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.171-5.214-6.
-                817L4.99 21.75H1.6817.73-8.835L1.254 2.25H8.18.0814.713 6.231zm-1.
-                161 17.52h1.833L7.084 4.126H5.117z"
-              ></path>
-            </g>
-          </svg>
-        </div>
-      </Grid>
+     
     </div>
   );
 };
