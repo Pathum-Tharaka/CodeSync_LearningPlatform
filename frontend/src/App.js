@@ -8,7 +8,7 @@ function App() {
   return (
     <div>
         <Routes>
-          <Route path="/*" element={ true?<HomePage />: <Authentication />}>
+          <Route path="/*" element={ false?<HomePage />: <Authentication />}>/// This will be the default route for the app controller false and true
           </Route>
         </Routes>
     </div>
