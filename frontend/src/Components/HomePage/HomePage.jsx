@@ -5,6 +5,8 @@ import HomeSection from "../HomeSection/HomeSection";
 import { Route, Routes } from "react-router-dom";
 import Profile from "../Profile/Profile";
 
+import Authentication from "../Authentication/Authentication";
+
 const HomePage = () => {
     return (
       <Grid container spacing={12} className="px-5 lg:px-20">
@@ -16,9 +18,10 @@ const HomePage = () => {
         {/* Main content - takes full width on mobile, 6/12 columns on large screens */}
         <Grid item xs={12} lg={6} >
         <Routes>
-          <Route path="/" element={<HomeSection />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/:id" element={<Profile />} />
+          <Route path="/" element={<Authentication />} ></Route>
+          <Route path="/home" element={<HomeSection />} ></Route>
+          <Route path="/profile" element={<Profile />} ></Route>
+          <Route path="/profile/:id" element={<Profile />} ></Route>
         </Routes>
         </Grid>
 
