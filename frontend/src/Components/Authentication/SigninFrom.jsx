@@ -66,7 +66,7 @@ const SigninForm = () => {
                         sx={{ borderRadius: "29px", py: "15px", bgcolor: blue[500] }}
                         size="large"
                     >
-                        Submit
+                        Sign In
                     </Button>
                 </Grid>
             </Grid>
