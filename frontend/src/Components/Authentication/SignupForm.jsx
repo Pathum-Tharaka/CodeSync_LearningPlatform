@@ -157,7 +157,7 @@ const SignupForm = () => {
             sx={{ borderRadius: "29px", py: "15px", bgcolor: blue[500] }}
             size="large"
           >
-            Signin
+            Signup
           </Button>
         </Grid>
       </Grid>
