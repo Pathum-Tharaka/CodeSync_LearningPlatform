@@ -2,8 +2,13 @@ import React from "react";
 import { Grid } from "@mui/material";
 import { GoogleLogin } from "@react-oauth/google";
 import Button from "@mui/material/Button";
+import { useState } from "react";
+import AuthModel from "./AuthModel";
 
 const Authentication = () => {
+  const[openAuthModel,setOpenAuthModel] = useState(false);
+  const hadleopenAuthModel=()=>setOpenAuthModel(true);
+  const handleCloseAuthModel=()=>setOpenAuthModel(false);
   return (
     <div className=" overflow-hidden">
 
@@ -12,7 +17,7 @@ const Authentication = () => {
           <div className="max-w-md mx-auto w-full">
             {/* Mobile Header */}
             <div className="lg:hidden mb-8 text-center">
-              <h1 className="font-bold text-4xl mb-4">Happening Now</h1>
+              <h1 className="mt-10 font-bold text-4xl mb-4">Happening Now</h1>
               <h2 className="font-bold text-2xl">Join Codesync Today</h2>
             </div>
 
@@ -28,7 +33,8 @@ const Authentication = () => {
               
               <p className="py-2 text-center">OR</p>
 
-              <Button
+              <Button 
+                onClick={hadleopenAuthModel} 
                 fullWidth
                 variant="contained"
                 size="large"
@@ -55,6 +61,7 @@ const Authentication = () => {
                   Already have an account?
                 </h1>
                 <Button
+                  onClick={hadleopenAuthModel}
                   fullWidth
                   variant="outlined"
                   size="large"
@@ -72,6 +79,7 @@ const Authentication = () => {
             </div>
           </div>
         </Grid>
+        <AuthModel open={openAuthModel} handleClose={handleCloseAuthModel}/>
      
     </div>
   );
