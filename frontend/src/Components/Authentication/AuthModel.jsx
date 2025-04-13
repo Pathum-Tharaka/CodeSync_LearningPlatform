@@ -3,6 +3,9 @@ import Box from "@mui/material/Box";
 import SigninForm from "./SigninFrom";
 import SignupForm from "./SignupForm";
 import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
+import { useLocation, useNavigate } from "react-router-dom";
+
 
 const style = {
   position: "absolute",
@@ -20,8 +23,11 @@ const style = {
 
 export default function AuthModal({ open, handleClose }) {
   const location = useLocation();
-  
-
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    const path = location.pathname === "/signup" ? "/signin" : "/signup";
+    navigate(path);
+};
   return (
     <div>
       <Modal
