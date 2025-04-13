@@ -18,6 +18,15 @@ const months = [
   { value: 1, label: "January" },
   { value: 2, label: "February" },
   { value: 3, label: "March" },
+  { value: 4, label: "April" },
+  { value: 5, label: "May" },
+  { value: 6, label: "June" },
+  { value: 7, label: "July" },
+  { value: 8, label: "August" },
+  { value: 9, label: "September" },
+  { value: 10, label: "October" },
+  { value: 11, label: "November" },
+  { value: 12, label: "December" },
 ];
 const SignupForm = () => {
   const formik = useFormik({
@@ -94,7 +103,8 @@ const SignupForm = () => {
         </Grid>
         <Grid item xs={4}>
           <InputLabel>Date</InputLabel>
-          <Select name="day"
+          <Select
+            name="day"
             fullWidth
             onChange={handleDateChange("day")}
             onBlur={formik.handleBlur}
@@ -109,22 +119,24 @@ const SignupForm = () => {
         </Grid>
         <Grid item xs={4}>
           <InputLabel>Month</InputLabel>
-          <Select name="month"
+          <Select
+            name="month"
             fullWidth
             onChange={handleDateChange("month")}
             onBlur={formik.handleBlur}
             value={formik.values.dateofBirth.month}
           >
             {months.map((month) => (
-              <MenuItem key={month} value={month}>
-                {month}
+              <MenuItem key={month.label} value={month.value}>
+                {month.label}
               </MenuItem>
             ))}
           </Select>
         </Grid>
         <Grid item xs={4}>
           <InputLabel>Year</InputLabel>
-          <Select name="year"
+          <Select
+            name="year"
             fullWidth
             onChange={handleDateChange("year")}
             onBlur={formik.handleBlur}
