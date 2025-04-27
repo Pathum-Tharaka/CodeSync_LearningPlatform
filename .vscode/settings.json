@@ -4,6 +4,9 @@
     "tailwindCSS.includeLanguages": {
     "plaintext": "html",
     "css": "css"
-}
+},
+"cSpell.words": [
+    "projectlombok"
+]
 
 }
