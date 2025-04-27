@@ -1,0 +1,68 @@
+/* Container and Typography */
+.p-6 {
+    padding: 2rem;
+    background-color: #fafafa;
+  }
+  
+  .text-xl {
+    font-size: 1.25rem;
+  }
+  
+  .font-semibold {
+    font-weight: 600;
+  }
+  
+  .mb-4 {
+    margin-bottom: 1rem;
+  }
+  
+  /* Button Styling */
+  .ant-btn-primary {
+    background: linear-gradient(to right, #f09433, #e6683c, #dc2743);
+    border: none;
+    border-radius: 1.5rem;
+    font-weight: bold;
+    padding: 0 1.25rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ant-btn-primary:hover {
+    opacity: 0.9;
+  }
+  
+  /* Modal */
+  .ant-modal-content {
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Inputs */
+  .ant-input,
+  .ant-textarea,
+  .ant-select-selector {
+    border-radius: 1rem;
+    background: #f9f9f9;
+    border: 1px solid #dbdbdb;
+  }
+  
+  /* List Styling */
+  .ant-list-item {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  }
+  
+  .ant-list-item-meta-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #262626;
+  }
+  
+  .ant-list-item-meta-description {
+    font-size: 14px;
+    color: #555;
+  }
+  
