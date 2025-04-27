@@ -11,20 +11,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-.hideScrollBar {
-  overflow: hidden; /* Ensures that no scrollbars appear */
-}
-
-.hideScrollBar::-webkit-scrollbar {
-  display: none; /* Hides the scrollbar in WebKit browsers (Chrome, Safari, etc.) */
-}
-
-.hideScrollBar {
-  -ms-overflow-style: none;  /* Hides scrollbar in Internet Explorer */
-  scrollbar-width: none;  /* Hides scrollbar in Firefox */
-}
-
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

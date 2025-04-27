@@ -1,18 +1,16 @@
-import React from 'react'
-import {  Routes, Route } from 'react-router-dom'
-import HomePage from './Components/HomePage/HomePage'
-import Authentication from './Components/Authentication/Authentication'
+import { Routes } from "react-router";
+import Routers from "./Pages/Router/Routers";
+
 
 
 function App() {
   return (
-    <div>
-        <Routes>
-          <Route path="/*" element={ false?<HomePage />: <Authentication />}>
-          </Route>
-        </Routes>
+    <div className="">
+      
+<Routers/>
+
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
