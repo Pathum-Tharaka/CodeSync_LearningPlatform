@@ -9,7 +9,7 @@ public class HomeController {
 	@GetMapping("/api")
 	public String homeControllerHandler() {
 		
-		return "welcome to ELearnXpert backend api";
+		return "welcome to Codesync backend api";
 		
 	}
 
