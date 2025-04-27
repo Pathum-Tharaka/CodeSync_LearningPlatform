@@ -1,0 +1,18 @@
+.profile-image {
+    border-radius: 50%; /* create a circular shape */
+    overflow: hidden; /* hide the excess part of the image */
+    margin: 0 auto; /* center the container horizontally */
+  }
+  
+  .profile-image img {
+    object-fit: cover;
+    height: auto; /* ensure the image maintains its aspect ratio */
+    display: block; /* ensure the image is centered within its container */
+  }
+    
+  @media only screen and (max-width: 767px) {
+    .profile-image {
+      width: 100px; /* adjust the width for smaller screens */
+      height: 100px; /* adjust the height for smaller screens */
+    }
+}
