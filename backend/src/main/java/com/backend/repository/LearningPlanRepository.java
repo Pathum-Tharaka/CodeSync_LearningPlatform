@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-
+//learning plan repository
 public interface LearningPlanRepository extends JpaRepository<LearningPlan, Long> {
     List<LearningPlan> findByUser(User user);
 
