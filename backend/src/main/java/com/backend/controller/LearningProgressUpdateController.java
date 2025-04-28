@@ -12,7 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+//learning progress update controller
+// This class handles HTTP requests related to learning progress updates
 @RestController
 @RequestMapping("/api/progress")
 public class LearningProgressUpdateController {
