@@ -9,7 +9,7 @@ import com.backend.model.Resource;
 import com.backend.model.Topic;
 
 import java.util.List;
-
+//learning plan service
 public interface LearningPlanService {
     LearningPlan createLearningPlan(LearningPlan learningPlan, Integer userId) throws UserException;
     LearningPlan updateLearningPlan(LearningPlan learningPlan, Integer userId) throws UserException, LearningPlanException;
