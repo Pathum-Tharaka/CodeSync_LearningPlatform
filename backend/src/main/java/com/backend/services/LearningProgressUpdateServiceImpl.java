@@ -25,28 +25,5 @@ public class LearningProgressUpdateServiceImpl implements LearningProgressUpdate
         return updateRepository.save(update);
     }
 
-    @Override
-    public LearningProgressUpdate updateProgressUpdate(Long id, LearningProgressUpdate update, Integer userId) throws UserException {
-        LearningProgressUpdate existing = updateRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Update not found"));
-        if (!existing.getUser().getId().equals(userId)) throw new RuntimeException("Unauthorized");
-        existing.setTitle(update.getTitle());
-        existing.setContent(update.getContent());
-        return updateRepository.save(existing);
-    }
-
-    @Override
-    public void deleteProgressUpdate(Long id, Integer userId) throws UserException {
-        LearningProgressUpdate existing = updateRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Update not found"));
-        if (!existing.getUser().getId().equals(userId)) throw new RuntimeException("Unauthorized");
-        updateRepository.delete(existing);
-    }
-
-    @Override
-    public List<LearningProgressUpdate> getUserProgressUpdates(Integer userId) throws UserException {
-        User user = userService.findUserById(userId);
-        return updateRepository.findByUser(user);
-    }
-}
+   
 
