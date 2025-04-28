@@ -8,9 +8,3 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface LearningPlanRepository extends JpaRepository<LearningPlan, Long> {
-    List<LearningPlan> findByUser(User user);
-
-    @Query("SELECT lp FROM LearningPlan lp WHERE lp.user.id = :userId")
-    List<LearningPlan> findByUserId(@Param("userId") Integer userId);
-}
