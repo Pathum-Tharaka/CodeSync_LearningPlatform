@@ -4,7 +4,7 @@ import com.backend.exception.UserException;
 import com.backend.model.LearningProgressUpdate;
 
 import java.util.List;
-
+//learning progress update service interface
 public interface LearningProgressUpdateService {
 
     LearningProgressUpdate createProgressUpdate(LearningProgressUpdate update, Integer userId) throws UserException;

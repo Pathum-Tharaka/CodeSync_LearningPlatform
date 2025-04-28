@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-
+//learning progress update entity class
+// This class represents the learning progress update entity in the database
 @Entity
 public class LearningProgressUpdate {
 
