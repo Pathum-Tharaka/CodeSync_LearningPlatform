@@ -78,6 +78,7 @@ const LearningPlan = () => {
     };
   }, [dispatch, token]);
 
+  // Handle creation of a new learning plan
   const handleCreatePlan = async (values) => {
     try {
       await dispatch(createLearningPlan({
@@ -92,6 +93,7 @@ const LearningPlan = () => {
     }
   };
 
+  // Handle updating an existing learning plan
   const handleUpdatePlan = async (values) => {
     try {
       await dispatch(updateLearningPlan({
@@ -107,6 +109,7 @@ const LearningPlan = () => {
     }
   };
 
+  // Handle deletion of a learning plan with confirmation
   const handleDeletePlan = (planId) => {
     Modal.confirm({
       title: 'Delete Learning Plan',
@@ -128,6 +131,7 @@ const LearningPlan = () => {
     });
   };
 
+  // Function to handle the creation of a new topic under a learning plan
   const handleCreateTopic = async (values) => {
     try {
       await dispatch(addTopicToPlan({
@@ -146,6 +150,7 @@ const LearningPlan = () => {
     }
   };
 
+  // Function to handle updating an existing topic
   const handleUpdateTopic = async (values) => {
     try {
       await dispatch(updateTopic({
@@ -164,6 +169,7 @@ const LearningPlan = () => {
     }
   };
 
+  // Handle deletion of a topic with confirmation prompt
   const handleDeleteTopic = (topicId) => {
     Modal.confirm({
       title: 'Delete Topic',
