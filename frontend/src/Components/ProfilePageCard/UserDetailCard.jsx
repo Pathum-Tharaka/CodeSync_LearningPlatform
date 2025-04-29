@@ -67,8 +67,12 @@ setIsFollow(isFollowing)
                 <span onClick={handleFollowUser}>Follow</span>
               )}
             </button>
-            <button className="text-xs py-1 px-5 bg-slate-100 hover:bg-slate-300 rounded-md font-semibold">
-              {isRequser ? "Add tools" : "Message"}
+            <button
+              className="text-xs py-1 px-5 bg-slate-100 hover:bg-slate-300 rounded-md font-semibold"
+              onClick={() => navigate("/notifications")}
+            >
+              <span role="img" aria-label="notification-bell">🔔 </span>
+              {isRequser ? "Notification" : "Message"}
             </button>
             <TbCircleDashed className="text-xl" />
           </div>
