@@ -1,6 +1,8 @@
 import { Form } from "formik";
 import React from "react";
 import "./Register.css";
+import logo from "../../Assets/logo1.png";
+
 
 
 const Register = () => {
@@ -10,10 +12,9 @@ const Register = () => {
         {}
         
         <div class="">
-          <img
-            src="https://thumbs.dreamstime.com/b/print-179008753.jpg"
-            alt="ElearnXpert Logo"
-          />
+          
+                    <img src={logo} alt="Logo" className="w-full max-w-[150px] mx-auto" />
+                  
 
           <form>
             <input type="text" placeholder="Username" />

@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { signinAction } from "../../Redux/Auth/Action";
 import { getUserProfileAction } from "../../Redux/User/Action";
+import logo from "../../Assets/logo1.png";
 
 
 const validationSchema = Yup.object().shape({
@@ -60,8 +61,8 @@ const Signin = () => {
         <Box p={8} display="flex" flexDirection="column" alignItems="center">
         <img
           className="border border-red-800 mb-5"
-          src="https://www.e-learning-platform.org/images/e-learning-logo.png"
-          alt=""
+          src={logo} alt="Logo"
+   
         />
         
         <Formik

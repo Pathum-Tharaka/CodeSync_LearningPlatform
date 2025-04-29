@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import SearchComponent from "../SearchComponent/SearchComponent";
 import CreatePostModal from "../Post/Create/CreatePostModal";
 import CreateReelModal from "../Create/CreateReel";
-import logo from "../../Assets/logo.png";
+import logo from "../../Assets/logo1.png";
 import "./Sidebar.css";
 
 const Sidebar = () => {
@@ -16,20 +16,27 @@ const Sidebar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useSelector((store) => store);
   const [isCreateReelModalOpen, setIsCreateReelModalOpen] = useState(false);
+  const [showCreateDropdown, setShowCreateDropdown] = useState(false); // Manage dropdown visibility
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
+    setIsSearchBoxVisible(tab === "Search");
+
     if (tab === "Profile") navigate(`/${user.reqUser?.username}`);
     else if (tab === "Home") navigate("/");
-    else if (tab === "Create Post") onOpen();
     else if (tab === "About Us") navigate("/about");
-    else if (tab === "Reels") navigate("/reels");
-    else if (tab === "Create Reels") setIsCreateReelModalOpen(true);
+    else if (tab === "Tricks") navigate("/reels");
     else if (tab === "Notifications") navigate("/notifications");
-    else if (tab === "Create Story") navigate("/create-story");
-    else if (tab === "Learning Plan") navigate("/learning_plan");
+    else if (tab === "Course Plan") navigate("/learning_plan");
     else if (tab === "Learning Progress") navigate("/learning-progress");
-    setIsSearchBoxVisible(tab === "Search");
+    // For "Create", we don't navigate immediately (handled separately)
+  };
+
+  const handleSubMenuClick = (subTitle) => {
+    if (subTitle === "Create Post") onOpen(); // Open Create Post Modal
+    else if (subTitle === "Learn Tricks") setIsCreateReelModalOpen(true); // Open Create Reel Modal
+    else if (subTitle === "Catchup") navigate("/create-story"); // Navigate to create story page
+    setShowCreateDropdown(false); // Close dropdown after selection
   };
 
   const handleLogout = () => {
@@ -39,35 +46,59 @@ const Sidebar = () => {
 
   return (
     <div className="sticky top-0 h-screen w-64 bg-white border-r flex flex-col justify-between overflow-y-auto">
-      {/* Main Content Area */}
+      {/* Top - Logo */}
       <div className="flex-1 flex flex-col">
-        {/* Logo */}
-        <div className="p-4 border-b">
-          <img src={logo} alt="Logo" className="w-full max-w-[160px] mx-auto" />
+        <div className="p-2 border-b">
+          <img src={logo} alt="Logo" className="w-full max-w-[150px] mx-auto" />
         </div>
 
         {/* Menu Items */}
-        <div className="flex-1 overflow-y-auto py-2 px-3">
+        <div className="flex-1 overflow-y-auto py-4 px-3">
           {mainu.map((item, index) => (
-            <div
-              key={index}
-              onClick={() => handleTabClick(item.title)}
-              className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer mb-1 transition-colors ${
-                activeTab === item.title
-                  ? "bg-blue-50 text-blue-600"
-                  : "hover:bg-gray-100 text-gray-700"
-              }`}
-            >
-              <div className="text-xl">
-                {activeTab === item.title ? item.activeIcon : item.icon}
+            <div key={index} className="mb-1">
+              <div
+                onClick={() => {
+                  if (item.title === "Create") {
+                    setShowCreateDropdown(!showCreateDropdown); // Toggle dropdown visibility
+                  } else {
+                    handleTabClick(item.title);
+                  }
+                }}
+                className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors ${
+                  activeTab === item.title
+                    ? "bg-blue-50 text-blue-600"
+                    : "hover:bg-gray-100 text-gray-700"
+                }`}
+              >
+                <div className="text-xl">
+                  {activeTab === item.title ? item.activeIcon : item.icon}
+                </div>
+                <span className="text-sm font-medium">{item.title}</span>
               </div>
-              <span className="text-sm font-medium">{item.title}</span>
+
+              {/* Show Submenu if available and active */}
+              {item.subMenu && showCreateDropdown && item.title === "Create" && (
+                <div className="ml-8 mt-1 space-y-2 pt-2 pb-3 bg-gray-50 rounded-lg shadow-lg">
+                  {item.subMenu.map((subItem, subIndex) => (
+                    <div
+                      key={subIndex}
+                      onClick={() => handleSubMenuClick(subItem.title)}
+                      className={`flex items-center ml-4  p-1 rounded-lg cursor-pointer transition-colors ${
+                        activeTab === item.title
+                          ? "bg-blue-50 text-blue-600"
+                          : "hover:bg-gray-100 text-gray-700"
+                      }`}                    >
+                      {subItem.title}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>
       </div>
 
-      {/* Bottom Section - Logout */}
+      {/* Bottom - Logout */}
       <div className="p-3 border-t">
         <div
           onClick={handleLogout}
@@ -85,8 +116,10 @@ const Sidebar = () => {
         </div>
       )}
 
-      {/* Other Modals */}
+      {/* Create Post Modal */}
       <CreatePostModal onClose={onClose} isOpen={isOpen} />
+
+      {/* Create Reel Modal */}
       <CreateReelModal
         onClose={() => setIsCreateReelModalOpen(false)}
         isOpen={isCreateReelModalOpen}

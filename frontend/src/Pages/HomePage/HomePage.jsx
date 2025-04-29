@@ -66,7 +66,7 @@ const HomePage = () => {
      
 
        <div className="mt-10 flex w-[100%] justify-center">
-        <div className="flex flex-col w-[44%] px-10 items-center">
+        <div className="flex flex-col w-[100%] px-10 items-center">
           {storyUsers.length> 0 && <div  className="flex  space-x-2 border p-4 rounded-md justify-start w-full mb-[3rem]">
             {storyUsers.map((item, index) => <StoryCircle
               
@@ -96,9 +96,12 @@ const HomePage = () => {
             ))}
           </div>
         </div>
-        <div className="w-[30%] pr-10">
-          <HomeRight suggestedUser={suggestedUser}/>
-        </div>
+        <div className="w-[50%] pr-10">
+  <div className="sticky top-0 h-screen flex flex-col justify-between">
+    <HomeRight suggestedUser={suggestedUser} />
+  </div>
+</div>
+
       </div> 
     </div>
   );
