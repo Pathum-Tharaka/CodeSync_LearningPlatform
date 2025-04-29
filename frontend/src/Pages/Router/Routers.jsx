@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useLocation } from "react-router-dom";
-
+// IMPORTING COMPONENTS
 import StoryPage from "../../Components/Demo/Demo";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import { getUserProfileAction } from "../../Redux/User/Action";
@@ -19,7 +19,7 @@ import AboutUs from "../AboutUs/AboutUs";
 import OAuthSuccess from "../Auth/OAuthSuccess"; 
 
 
-
+//IMPORT STYLES 
 
 const Routers = () => {
   const location =useLocation();
@@ -39,7 +39,7 @@ const Routers = () => {
       {location.pathname!=="/reels" && <div className="sidebarBox border border-l-slate-500 w-[20%]">
         <Sidebar />
       </div>}
-      <div className="w-full">
+      <div className="w-full">{/* This is the main content area where the routes will be rendered */}
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutUs />} />
