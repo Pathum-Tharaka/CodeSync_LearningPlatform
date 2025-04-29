@@ -4,7 +4,7 @@ import {
   getProgressUpdates,
   createProgressUpdate,
   updateProgressUpdate,
-  deleteProgressUpdate
+  deleteProgressUpdate,
 } from "../../Redux/LearningProgress/Action";
 import {
   Button,
@@ -21,12 +21,12 @@ import {
   DeleteOutlined,
   FileTextOutlined,
   ToolOutlined,
-  RocketOutlined
+  RocketOutlined,
 } from "@ant-design/icons";
 import "./LearningProgress.css"; // 👈 Make sure this CSS file is created
 
 const { Option } = Select;
-
+// This component is responsible for displaying and managing learning progress updates.
 const LearningProgress = () => {
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
@@ -40,7 +40,7 @@ const LearningProgress = () => {
   useEffect(() => {
     dispatch(getProgressUpdates(token));
   }, [dispatch]);
-
+// This effect fetches the progress updates when the component mounts.
   const handleSubmit = (values) => {
     if (editing) {
       dispatch(updateProgressUpdate(token, editing.id, values));
@@ -58,17 +58,17 @@ const LearningProgress = () => {
     if (value === "tutorial") {
       form.setFieldsValue({
         title: "📚 Completed a Tutorial",
-        content: "Finished learning [topic] tutorial."
+        content: "Finished learning [topic] tutorial.",
       });
     } else if (value === "skill") {
       form.setFieldsValue({
         title: "🛠️ Learned a New Skill",
-        content: "I learned how to [skill]."
+        content: "I learned how to [skill].",
       });
     } else if (value === "project") {
       form.setFieldsValue({
         title: "🚀 Built a Project",
-        content: "I developed a project using [technology]."
+        content: "I developed a project using [technology].",
       });
     }
   };
@@ -76,7 +76,7 @@ const LearningProgress = () => {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">📈 Learning Progress Updates</h2>
+        <h2 className="text-xl font-semibold">Learning Progress Updates</h2>
         <Button
           type="primary"
           icon={<PlusOutlined />}
@@ -128,7 +128,7 @@ const LearningProgress = () => {
           form.resetFields();
         }}
         onOk={() => form.submit()}
-        title={editing ? "Edit Update ✏️" : "Add Progress Update 🚀"}
+        title={editing ? "Edit Update" : "Add Progress Update"}
       >
         <Form form={form} onFinish={handleSubmit} layout="vertical">
           {!editing && (
@@ -138,14 +138,14 @@ const LearningProgress = () => {
                 onChange={handleTemplateChange}
                 optionLabelProp="label"
               >
-                <Option value="tutorial" label="📚 Completed Tutorial">
-                  <FileTextOutlined /> 📚 Completed Tutorial
+                <Option value="tutorial" label="Completed Tutorial">
+                  <FileTextOutlined /> Completed Tutorial
                 </Option>
-                <Option value="skill" label="🛠️ New Skill Learned">
-                  <ToolOutlined /> 🛠️ New Skill Learned
+                <Option value="skill" label="New Skill Learned">
+                  <ToolOutlined /> New Skill Learned
                 </Option>
-                <Option value="project" label="🚀 Built a Project">
-                  <RocketOutlined /> 🚀 Built a Project
+                <Option value="project" label="Built a Project">
+                  <RocketOutlined /> Built a Project
                 </Option>
               </Select>
             </Form.Item>

@@ -98,7 +98,7 @@ const CommentModal = ({
                 <img
                   className="max-h-full max-w-full"
                   src={post.singlePost?.image}
-                  alt=""
+                  alt="Upload photo"
                 />
               </div>
               <div className="w-[55%] pl-10 relative">
