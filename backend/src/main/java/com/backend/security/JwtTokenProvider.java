@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.crypto.SecretKey;
 
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
 
 import com.backend.config.SecurityContest;
@@ -14,6 +13,7 @@ import com.backend.model.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 @Service
