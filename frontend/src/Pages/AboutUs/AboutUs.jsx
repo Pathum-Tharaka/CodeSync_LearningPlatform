@@ -21,7 +21,7 @@ const AboutUs = () => {
           and interactive tools designed to make education more accessible, engaging, and effective.
         </p>
         <p className="text-lg leading-relaxed mb-8">
-          Whether you're a student, teacher, or lifelong learner, <span className="text-yellow-300 font-semibold">CodeSync</span>
+          Whether you're a student, teacher, or lifelong learner, <span className="text-yellow-300 font-semibold">CodeSync </span>
           is your trusted partner on the path to knowledge and success. Join our community and start your learning journey today!
         </p>
 

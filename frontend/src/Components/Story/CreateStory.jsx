@@ -64,7 +64,7 @@ const CreateStory = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-96">
-        <h2 className="text-2xl font-bold mb-6">Create Story</h2>
+        <h2 className="text-2xl font-bold mb-6">Create CatchUp</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-6">
             <div className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 cursor-pointer" onClick={() => document.getElementById('fileInput').click()}>
@@ -99,7 +99,7 @@ const CreateStory = () => {
             disabled={loading}
             className={`w-full py-2 px-4 rounded-md text-white ${loading ? 'bg-blue-300' : 'bg-blue-500 hover:bg-blue-600'}`}
           >
-            {loading ? 'Creating Story...' : 'Create Story'}
+            {loading ? 'Creating CatchUp...' : 'Create CatchUp'}
           </button>
         </form>
       </div>
