@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { signupAction } from "../../Redux/Auth/Action";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import logo from "../../Assets/logo1.png";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email address").required("Required"),
@@ -60,8 +60,8 @@ if(auth.signup?.username){
       <Box p={8} display="flex" flexDirection="column" alignItems="center">
         <img
           className="border border-red-800"
-          src="https://www.e-learning-platform.org/images/e-learning-logo.png"
-          alt=""
+          src={logo}
+          alt="Logo"
         />
         <p className="font-bold opacity-50 text-lg mb-10 text-center">
           Experience the delightful learning experience with ELearnXpert.
