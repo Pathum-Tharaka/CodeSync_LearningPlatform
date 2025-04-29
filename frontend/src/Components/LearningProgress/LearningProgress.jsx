@@ -15,6 +15,8 @@ import {
   message,
   Select
 } from "antd";
+import { Card, Tooltip } from "antd";
+
 import {
   PlusOutlined,
   EditOutlined,
@@ -76,7 +78,7 @@ const LearningProgress = () => {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">📈 Learning Progress Updates</h2>
+        <h2 className="text-xl font-semibold">Learning Progress Updates</h2>
         <Button
           type="primary"
           icon={<PlusOutlined />}
@@ -87,38 +89,60 @@ const LearningProgress = () => {
       </div>
 
       <List
-        dataSource={updates}
-        renderItem={(item) => (
-          <List.Item
-            key={item.id}
-            actions={[
-              <Button
-                icon={<EditOutlined />}
-                size="small"
-                onClick={() => {
-                  setEditing(item);
-                  form.setFieldsValue(item);
-                  setIsModalOpen(true);
-                }}
-              />,
-              <Button
-                icon={<DeleteOutlined />}
-                size="small"
-                danger
-                onClick={() => {
-                  dispatch(deleteProgressUpdate(token, item.id));
-                  message.success("Update deleted!");
-                }}
-              />
-            ]}
-          >
-            <List.Item.Meta
-              title={item.title}
-              description={item.content}
+  dataSource={updates}
+  renderItem={(item) => (
+    <Card
+      key={item.id}
+      className="mb-4"
+      style={{
+        backgroundColor: "#ffffff",
+        borderRadius: "12px",
+        boxShadow: "0 2px 10px rgba(0, 0, 0, 0.08)",
+        border: "1px solid #f0f0f0",
+      }}
+    >
+      <List.Item
+        actions={[
+          <Tooltip title="Edit">
+            <Button
+              icon={<EditOutlined style={{ color: "#1890ff" }} />}
+              size="small"
+              onClick={() => {
+                setEditing(item);
+                form.setFieldsValue(item);
+                setIsModalOpen(true);
+              }}
             />
-          </List.Item>
-        )}
-      />
+          </Tooltip>,
+          <Tooltip title="Delete">
+            <Button
+              icon={<DeleteOutlined style={{ color: "#ff4d4f" }} />}
+              size="small"
+              danger
+              onClick={() => {
+                dispatch(deleteProgressUpdate(token, item.id));
+                message.success("Update deleted!");
+              }}
+            />
+          </Tooltip>,
+        ]}
+        style={{ border: "none", paddingLeft: 0, paddingRight: 0 }}
+      >
+        <List.Item.Meta
+          title={
+            <span style={{ color: "#001529", fontWeight: "600" }}>
+              {item.title}
+            </span>
+          }
+          description={
+            <span style={{ color: "#595959" }}>{item.content}</span>
+          }
+        />
+      </List.Item>
+    </Card>
+  )}
+/>
+
 
       <Modal
         open={isModalOpen}
@@ -128,7 +152,7 @@ const LearningProgress = () => {
           form.resetFields();
         }}
         onOk={() => form.submit()}
-        title={editing ? "Edit Update ✏️" : "Add Progress Update 🚀"}
+        title={editing ? "Edit Update" : "Add Progress Update"}
       >
         <Form form={form} onFinish={handleSubmit} layout="vertical">
           {!editing && (
@@ -138,14 +162,14 @@ const LearningProgress = () => {
                 onChange={handleTemplateChange}
                 optionLabelProp="label"
               >
-                <Option value="tutorial" label="📚 Completed Tutorial">
-                  <FileTextOutlined /> 📚 Completed Tutorial
+                <Option value="tutorial" label="Completed Tutorial">
+                  <FileTextOutlined /> Completed Tutorial
                 </Option>
-                <Option value="skill" label="🛠️ New Skill Learned">
-                  <ToolOutlined /> 🛠️ New Skill Learned
+                <Option value="skill" label="New Skill Learned">
+                  <ToolOutlined /> New Skill Learned
                 </Option>
-                <Option value="project" label="🚀 Built a Project">
-                  <RocketOutlined /> 🚀 Built a Project
+                <Option value="project" label="Built a Project">
+                  <RocketOutlined /> Built a Project
                 </Option>
               </Select>
             </Form.Item>
