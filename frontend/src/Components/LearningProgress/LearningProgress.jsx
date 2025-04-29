@@ -4,29 +4,21 @@ import {
   getProgressUpdates,
   createProgressUpdate,
   updateProgressUpdate,
-  deleteProgressUpdate
+  deleteProgressUpdate,
 } from "../../Redux/LearningProgress/Action";
-import {
-  Button,
-  Modal,
-  Form,
-  Input,
-  List,
-  message,
-  Select
-} from "antd";
+import { Button, Modal, Form, Input, List, message, Select } from "antd";
 import {
   PlusOutlined,
   EditOutlined,
   DeleteOutlined,
   FileTextOutlined,
   ToolOutlined,
-  RocketOutlined
+  RocketOutlined,
 } from "@ant-design/icons";
 import "./LearningProgress.css"; // 👈 Make sure this CSS file is created
 
 const { Option } = Select;
-
+// This component is responsible for displaying and managing learning progress updates.
 const LearningProgress = () => {
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
@@ -40,7 +32,7 @@ const LearningProgress = () => {
   useEffect(() => {
     dispatch(getProgressUpdates(token));
   }, [dispatch]);
-
+// This effect fetches the progress updates when the component mounts.
   const handleSubmit = (values) => {
     if (editing) {
       dispatch(updateProgressUpdate(token, editing.id, values));
@@ -58,17 +50,17 @@ const LearningProgress = () => {
     if (value === "tutorial") {
       form.setFieldsValue({
         title: "📚 Completed a Tutorial",
-        content: "Finished learning [topic] tutorial."
+        content: "Finished learning [topic] tutorial.",
       });
     } else if (value === "skill") {
       form.setFieldsValue({
         title: "🛠️ Learned a New Skill",
-        content: "I learned how to [skill]."
+        content: "I learned how to [skill].",
       });
     } else if (value === "project") {
       form.setFieldsValue({
         title: "🚀 Built a Project",
-        content: "I developed a project using [technology]."
+        content: "I developed a project using [technology].",
       });
     }
   };
@@ -109,13 +101,10 @@ const LearningProgress = () => {
                   dispatch(deleteProgressUpdate(token, item.id));
                   message.success("Update deleted!");
                 }}
-              />
+              />,
             ]}
           >
-            <List.Item.Meta
-              title={item.title}
-              description={item.content}
-            />
+            <List.Item.Meta title={item.title} description={item.content} />
           </List.Item>
         )}
       />
