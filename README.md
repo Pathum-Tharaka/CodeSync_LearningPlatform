@@ -7,17 +7,12 @@ CodeSync is a full-stack web application designed to help learners and educators
 ## 🚀 Features
 
 ### 🧑‍🎓 User Side
-- 🔐 User Authentication (JWT)
+- 🔐 User Authentication (Auth 2.0 , JWT)
 - 📚 View and enroll in courses
 - 📝 Download PDFs and materials (Offline Mode)
 - 💬 Comment on lessons or posts
 - 📥 Download offline resources
-
-### 👨‍💼 Admin Side
-- ✍️ Add / Update / Delete Courses & Lessons
-- 📊 View User Activity & Statistics
-- 🧾 Generate Reports
-
+- 
 ---
 
 ## 🛠️ Tech Stack
