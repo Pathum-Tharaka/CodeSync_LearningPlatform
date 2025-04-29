@@ -6,7 +6,15 @@ import {
   updateProgressUpdate,
   deleteProgressUpdate,
 } from "../../Redux/LearningProgress/Action";
-import { Button, Modal, Form, Input, List, message, Select } from "antd";
+import {
+  Button,
+  Modal,
+  Form,
+  Input,
+  List,
+  message,
+  Select
+} from "antd";
 import {
   PlusOutlined,
   EditOutlined,
@@ -68,7 +76,7 @@ const LearningProgress = () => {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">📈 Learning Progress Updates</h2>
+        <h2 className="text-xl font-semibold">Learning Progress Updates</h2>
         <Button
           type="primary"
           icon={<PlusOutlined />}
@@ -101,10 +109,13 @@ const LearningProgress = () => {
                   dispatch(deleteProgressUpdate(token, item.id));
                   message.success("Update deleted!");
                 }}
-              />,
+              />
             ]}
           >
-            <List.Item.Meta title={item.title} description={item.content} />
+            <List.Item.Meta
+              title={item.title}
+              description={item.content}
+            />
           </List.Item>
         )}
       />
@@ -117,7 +128,7 @@ const LearningProgress = () => {
           form.resetFields();
         }}
         onOk={() => form.submit()}
-        title={editing ? "Edit Update ✏️" : "Add Progress Update 🚀"}
+        title={editing ? "Edit Update" : "Add Progress Update"}
       >
         <Form form={form} onFinish={handleSubmit} layout="vertical">
           {!editing && (
@@ -127,14 +138,14 @@ const LearningProgress = () => {
                 onChange={handleTemplateChange}
                 optionLabelProp="label"
               >
-                <Option value="tutorial" label="📚 Completed Tutorial">
-                  <FileTextOutlined /> 📚 Completed Tutorial
+                <Option value="tutorial" label="Completed Tutorial">
+                  <FileTextOutlined /> Completed Tutorial
                 </Option>
-                <Option value="skill" label="🛠️ New Skill Learned">
-                  <ToolOutlined /> 🛠️ New Skill Learned
+                <Option value="skill" label="New Skill Learned">
+                  <ToolOutlined /> New Skill Learned
                 </Option>
-                <Option value="project" label="🚀 Built a Project">
-                  <RocketOutlined /> 🚀 Built a Project
+                <Option value="project" label="Built a Project">
+                  <RocketOutlined /> Built a Project
                 </Option>
               </Select>
             </Form.Item>
