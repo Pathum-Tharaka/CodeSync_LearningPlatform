@@ -26,7 +26,6 @@ import { findPostByIdAction } from "../../Redux/Post/Action";
 import CommentCard from "./CommentCard";
 import "./CommentModal.css";
 
-
 const CommentModal = ({
   isOpen,
   onClose,
@@ -98,8 +97,8 @@ const CommentModal = ({
               <div className="w-[45%] flex flex-col justify-center">
                 <img
                   className="max-h-full max-w-full"
-                  src={post?.singlePost?.image}
-                  alt="upload photo"
+                  src={post.singlePost?.image}
+                  alt="Upload photo"
                 />
               </div>
               <div className="w-[55%] pl-10 relative">
