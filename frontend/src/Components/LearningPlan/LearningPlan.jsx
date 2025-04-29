@@ -191,6 +191,7 @@ const LearningPlan = () => {
     });
   };
 
+  // Function to handle the creation of a new resource under a topic
   const handleCreateResource = async (values) => {
     try {
       await dispatch(addResourceToTopic({
@@ -206,6 +207,7 @@ const LearningPlan = () => {
     }
   };
 
+// Function to handle updating an existing resource
   const handleUpdateResource = async (values) => {
     try {
       await dispatch(updateResource({
@@ -221,6 +223,7 @@ const LearningPlan = () => {
     }
   };
 
+// Handle deletion of a resource with confirmation prompt
   const handleDeleteResource = (resourceId) => {
     Modal.confirm({
       title: 'Delete Resource',
@@ -242,7 +245,8 @@ const LearningPlan = () => {
     });
   };
 
-  const showPlanModal = (mode = 'create', plan = null) => {
+// Function to show the Plan Modal for creating or editing a plan
+const showPlanModal = (mode = 'create', plan = null) => {
     setPlanModal({
       visible: true,
       mode,
@@ -256,7 +260,8 @@ const LearningPlan = () => {
     }
   };
 
-  const showTopicModal = (mode = 'create', topic = null, planId = null) => {
+// Function to show the Topic Modal for creating or editing a topic
+const showTopicModal = (mode = 'create', topic = null, planId = null) => {
     setTopicModal({
       visible: true,
       mode,
@@ -273,7 +278,8 @@ const LearningPlan = () => {
     }
   };
 
-  const showResourceModal = (mode = 'create', resource = null, topicId = null) => {
+// Function to show the Resource Modal for creating or editing a resource
+const showResourceModal = (mode = 'create', resource = null, topicId = null) => {
     setResourceModal({
       visible: true,
       mode,
@@ -288,6 +294,7 @@ const LearningPlan = () => {
     }
   };
 
+  // Handles panel expansion and selection when a user clicks a learning plan
   const handlePanelChange = (key) => {
     setActivePanelKey(key);
     if (key.length > 0) {
@@ -299,6 +306,7 @@ const LearningPlan = () => {
     }
   };
 
+  // Show an error alert if data failed to load
   if (error) {
     return (
       <div className="p-8">
@@ -316,6 +324,7 @@ const LearningPlan = () => {
     );
   }
 
+  // Show loading spinner while data is being fetched
   if (loading) {
     return (
       <div className="p-8">
@@ -327,6 +336,7 @@ const LearningPlan = () => {
     );
   }
 
+  // Main return block rendering the learning plans and "New Learning Plan" button
   return (
     <div className="p-8">
       <div className="flex justify-between items-center mb-6">
@@ -342,6 +352,7 @@ const LearningPlan = () => {
         </Button>
       </div>
 
+      // Conditionally render message if there are no learning plans
       {learningPlan.plans?.length === 0 ? (
         <div className="text-center py-10 border-2 border-dashed rounded-lg">
           <FileAddOutlined className="text-4xl text-gray-400 mb-4" />
