@@ -14,7 +14,7 @@ import ReelViewer from "../ReelViewer/ReelViewer";
 import CreateStory from "../../Components/Story/CreateStory";
 import Notification from "../../Components/Notification/Notification";
 import LearningPlan from "../../Components/LearningPlan/LearningPlan";
-
+import LearningProgress from "../../Components/LearningProgress/LearningProgress";
 import AboutUs from "../AboutUs/AboutUs";
 import OAuthSuccess from "../Auth/OAuthSuccess"; 
 
