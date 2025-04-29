@@ -53,7 +53,7 @@ const Routers = () => {
           <Route path="/notifications" element={<Notification />} />
           <Route path="/create-story" element={<CreateStory />} />
           <Route path="/learning_plan" element={<LearningPlan />} />
-      
+          <Route path="/learning-progress" element={<LearningProgress />} />
           <Route path="/oauth-success" element={<OAuthSuccess />} />
         </Routes>
       </div>
