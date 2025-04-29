@@ -127,151 +127,148 @@ const CreatePostModal = ({ onOpen, isOpen, onClose }) => {
   };
 
   return (
-    <div>
-      <Modal
-        size={"4xl"}
-        finalFocusRef={React.useRef(null)}
-        isOpen={isOpen}
-        onClose={handleClose}
-      >
-        <ModalOverlay />
-        <ModalContent fontSize={"sm"}>
-          <div className="flex justify-between py-1 px-10 items-center">
-            <p>Create New Post</p>
-            <Button
-              onClick={handleSubmit}
-              className="inline-flex"
-              colorScheme="blue"
-              size={"sm"}
-              variant="ghost"
-              isDisabled={postData.mediaUrls.length === 0}
-            >
-              Share
-            </Button>
-          </div>
-
-          <hr className="hrLine" />
-
-          <ModalBody>
-            <div className="modalBodyBox flex h-[70vh] justify-between">
-              <div className="w-[50%] flex flex-col justify-center items-center relative">
-                {uploadStatus === "" && (
+    <Modal size={"5xl"} isOpen={isOpen} onClose={handleClose}>
+      <ModalOverlay />
+      <ModalContent className="rounded-xl shadow-xl overflow-hidden">
+        <ModalHeader className="flex justify-between items-center px-6 pt-4 pb-2 border-b">
+          <h2 className="text-lg font-bold">Create New Post</h2>
+          <Button
+            onClick={handleSubmit}
+            colorScheme="blue"
+            size="sm"
+            isDisabled={postData.mediaUrls.length === 0}
+          >
+            Share
+          </Button>
+        </ModalHeader>
+        <ModalBody className="flex flex-col md:flex-row p-0">
+          {/* Left Side: Media Upload / Preview */}
+          <div className="w-full md:w-1/2 h-[70vh] relative flex justify-center items-center bg-gray-50">
+            {uploadStatus === "" && (
+              <div
+                onDrop={handleDrop}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                className={`border-2 border-dashed rounded-lg w-11/12 h-5/6 p-6 text-center transition ${
+                  isDragOver ? "border-blue-400 bg-blue-50" : "border-gray-300"
+                }`}
+              >
+                <FaPhotoVideo className="text-4xl mx-auto mb-2 text-gray-500" />
+                <p className="text-gray-500 mb-3">Drag and drop photos or videos here</p>
+                <label
+                  htmlFor="file-upload"
+                  className="cursor-pointer inline-block bg-blue-500 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-600 transition"
+                >
+                  Select from Computer
+                </label>
+                <input
+                  type="file"
+                  id="file-upload"
+                  accept="image/*,video/*"
+                  multiple
+                  onChange={handleOnChange}
+                  className="hidden"
+                />
+              </div>
+            )}
+  
+            {uploadStatus === "uploading" && <SpinnerCard />}
+  
+            {uploadStatus === "uploaded" && (
+              <div className="relative w-full h-full overflow-hidden flex items-center justify-center">
+                {postData.mediaUrls.map((url, index) => (
                   <div
-                    onDrop={handleDrop}
-                    onDragOver={handleDragOver}
-                    onDragLeave={handleDragLeave}
-                    className={`drag-drop h-full ${isDragOver ? "border-blue-500" : ""}`}
+                    key={index}
+                    className={`absolute inset-0 transition-opacity duration-300 ${
+                      index === currentMediaIndex ? "opacity-100" : "opacity-0"
+                    }`}
                   >
-                    <div className="flex justify-center flex-col items-center">
-                      <FaPhotoVideo className={`text-3xl ${isDragOver ? "text-blue-800" : ""}`} />
-                      <p>Drag photos or videos here</p>
-                    </div>
-
-                    <label htmlFor="file-upload" className="custom-file-upload">
-                      Select from computer
-                    </label>
-                    <input
-                      type="file"
-                      id="file-upload"
-                      accept="image/*, video/*"
-                      multiple
-                      onChange={handleOnChange}
-                    />
-                  </div>
-                )}
-
-                {uploadStatus === "uploading" && <SpinnerCard />}
-
-                {uploadStatus === "uploaded" && (
-                  <div className="w-full h-full relative">
-                    {postData.mediaUrls.map((url, index) => (
-                      <div
-                        key={index}
-                        className={`absolute inset-0 flex items-center justify-center ${
-                          index === currentMediaIndex ? "block" : "hidden"
-                        }`}
-                      >
-                        {isVideo(url) ? (
-                          <video
-                            src={url}
-                            controls
-                            className="max-h-full max-w-full object-contain"
-                          />
-                        ) : (
-                          <img
-                            src={url}
-                            alt={`Media ${index + 1}`}
-                            className="max-h-full max-w-full object-contain"
-                          />
-                        )}
-                      </div>
-                    ))}
-
-                    {postData.mediaUrls.length > 1 && (
-                      <>
-                        {}
-                        <div className="absolute bottom-2 left-0 right-0 flex justify-center space-x-2">
-                          {postData.mediaUrls.map((_, index) => (
-                            <button
-                              key={index}
-                              onClick={() => setCurrentMediaIndex(index)}
-                              className={`w-2 h-2 rounded-full ${
-                                index === currentMediaIndex ? "bg-blue-500" : "bg-gray-300"
-                              }`}
-                              aria-label={`Go to media ${index + 1}`}
-                            />
-                          ))}
-                        </div>
-                      </>
+                    {isVideo(url) ? (
+                      <video src={url} controls className="w-full h-full object-contain" />
+                    ) : (
+                      <img src={url} className="w-full h-full object-contain" alt="media" />
                     )}
                   </div>
+                ))}
+  
+                {/* Media Nav Arrows */}
+                {postData.mediaUrls.length > 1 && (
+                  <>
+                    <IconButton
+                      icon={<ChevronLeftIcon />}
+                      onClick={handlePrevMedia}
+                      className="absolute left-2 top-1/2 transform -translate-y-1/2"
+                      size="sm"
+                    />
+                    <IconButton
+                      icon={<ChevronRightIcon />}
+                      onClick={handleNextMedia}
+                      className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                      size="sm"
+                    />
+                  </>
                 )}
+  
+                {/* Dots for slide indicator */}
+                <div className="absolute bottom-2 w-full flex justify-center space-x-2">
+                  {postData.mediaUrls.map((_, index) => (
+                    <div
+                      key={index}
+                      onClick={() => setCurrentMediaIndex(index)}
+                      className={`w-2 h-2 rounded-full cursor-pointer ${
+                        currentMediaIndex === index ? "bg-blue-500" : "bg-gray-300"
+                      }`}
+                    ></div>
+                  ))}
+                </div>
               </div>
-              
-              <div className="w-[1px] border h-full"></div>
-              
-              <div className="w-[50%]">
-                <div className="flex items-center px-2">
-                  <img
-                    className="w-7 h-7 rounded-full"
-                    src={user?.reqUser?.image || "https://cdn.pixabay.com/photo/2023/02/28/03/42/ibex-7819817_640.jpg"}
-                    alt=""
-                  />
-                  <p className="font-semibold ml-4">{user?.reqUser?.username}</p>
-                </div>
-                <div className="px-2">
-                  <textarea
-                    className="captionInput"
-                    placeholder="Write a description..."
-                    name="caption"
-                    rows="8"
-                    value={postData.caption}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="flex justify-between px-2">
-                  <GrEmoji />
-                  <p className="opacity-70">{postData.caption?.length}/2,200</p>
-                </div>
-                <hr />
-                <div className="p-2 flex justify-between items-center">
-                  <input
-                    className="locationInput"
-                    type="text"
-                    placeholder="Add Location"
-                    name="location"
-                    value={postData.location}
-                    onChange={handleInputChange}
-                  />
-                  <GoLocation />
-                </div>
-                <hr />
+            )}
+          </div>
+  
+          {/* Right Side: Post Details */}
+          <div className="w-full md:w-1/2 p-4 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center mb-4">
+                <img
+                  className="w-8 h-8 rounded-full mr-2"
+                  src={user?.reqUser?.image || "https://cdn.pixabay.com/photo/2023/02/28/03/42/ibex-7819817_640.jpg"}
+                  alt="user"
+                />
+                <span className="font-semibold">{user?.reqUser?.username}</span>
+              </div>
+  
+              <textarea
+                name="caption"
+                placeholder="Write a description..."
+                rows={6}
+                className="w-full p-3 rounded-md border resize-none focus:outline-none focus:ring-2 focus:ring-blue-300"
+                value={postData.caption}
+                onChange={handleInputChange}
+              />
+  
+              <div className="flex justify-between mt-1 text-sm text-gray-500">
+                <GrEmoji />
+                <span>{postData.caption?.length}/2,200</span>
               </div>
             </div>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-    </div>
+  
+            <div className="mt-4">
+              <div className="relative flex items-center">
+                <input
+                  type="text"
+                  name="location"
+                  placeholder="Add location"
+                  className="w-full pr-8 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  value={postData.location}
+                  onChange={handleInputChange}
+                />
+                <GoLocation className="absolute right-2 text-gray-400" />
+              </div>
+            </div>
+          </div>
+        </ModalBody>
+      </ModalContent>
+    </Modal>
   );
 };
 

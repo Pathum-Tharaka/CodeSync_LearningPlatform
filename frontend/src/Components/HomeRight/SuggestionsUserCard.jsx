@@ -1,19 +1,20 @@
-import React from 'react'
+import React from 'react';
 
-
-const SuggestionsUserCard = ({image,username,description}) => {
+const SuggestionsUserCard = ({ image, username, description }) => {
   return (
-    <div className='flex justify-between items-center'>
-        <div className='flex items-center'>
-            <img className='w-9 h-9 rounded-full' src={image} alt="" />
-            <div className='ml-2'>
-                <p className='text-sm font-semibold'>{username}</p>
-                <p className='text-sm font-semibold opacity-70'>{description}</p>
-            </div>
+    <div className="flex justify-between items-center p-3 hover:bg-gray-100 transition rounded-lg cursor-pointer">
+      <div className="flex items-center">
+        <img className="w-10 h-10 rounded-full object-cover" src={image} alt="user" />
+        <div className="ml-3">
+          <p className="text-sm font-semibold text-gray-800">{username}</p>
+          <p className="text-xs text-gray-500">{description}</p>
         </div>
-        <p className='text-blue-700 text-sm font-semibold'>Follow</p>
+      </div>
+      <button className="text-sm text-white bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded-full font-medium transition">
+        Follow
+      </button>
     </div>
-  )
-}
+  );
+};
 
-export default SuggestionsUserCard
+export default SuggestionsUserCard;
