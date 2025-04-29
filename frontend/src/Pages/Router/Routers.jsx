@@ -14,7 +14,7 @@ import ReelViewer from "../ReelViewer/ReelViewer";
 import CreateStory from "../../Components/Story/CreateStory";
 import Notification from "../../Components/Notification/Notification";
 import LearningPlan from "../../Components/LearningPlan/LearningPlan";
-import LearningProgress from "../../Components/LearningProgress/LearningProgress";
+
 import AboutUs from "../AboutUs/AboutUs";
 import OAuthSuccess from "../Auth/OAuthSuccess"; 
 
@@ -53,7 +53,7 @@ const Routers = () => {
           <Route path="/notifications" element={<Notification />} />
           <Route path="/create-story" element={<CreateStory />} />
           <Route path="/learning_plan" element={<LearningPlan />} />
-          <Route path="/learning-progress" element={<LearningProgress />} />
+      
           <Route path="/oauth-success" element={<OAuthSuccess />} />
         </Routes>
       </div>
