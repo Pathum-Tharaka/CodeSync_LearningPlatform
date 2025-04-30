@@ -5,6 +5,11 @@ import {
   FormErrorMessage,
   Input,
   useToast,
+  Container,
+  VStack,
+  Heading,
+  Text,
+  Divider,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import React, { useEffect } from "react";
@@ -14,7 +19,6 @@ import * as Yup from "yup";
 import { signinAction } from "../../Redux/Auth/Action";
 import { getUserProfileAction } from "../../Redux/User/Action";
 import logo from "../../Assets/logo1.png";
-
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email address").required("Required"),
@@ -27,123 +31,133 @@ const Signin = () => {
   const initialValues = { email: "", password: "" };
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user,signin } = useSelector((store) => store);
+  const { user, signin } = useSelector((store) => store);
   const toast = useToast();
 
   const token = localStorage.getItem("token");
-  console.log("token in signin page ",token)
-  console.log("reqUser -: ", user);
+  
   useEffect(() => {
     if (token) dispatch(getUserProfileAction(token || signin));
-  }, [signin,token]);
+  }, [signin, token, dispatch]);
 
   useEffect(() => {
     if (user?.reqUser?.username && token) {
       navigate(`/${user.reqUser?.username}`);
       toast({
-        title: "signin successfull",
+        title: "Sign in successful",
         status: "success",
         duration: 8000,
         isClosable: true,
       });
     }
-  }, [user.reqUser]);
+  }, [user.reqUser, token, navigate, toast]);
 
   const handleSubmit = (values, actions) => {
-    console.log(values);
     dispatch(signinAction(values));
     actions.setSubmitting(false);
   };
 
   return (
-    <div className=" ">
-      <div className="border border-slate-300">
-        <Box p={8} display="flex" flexDirection="column" alignItems="center">
-        <img
-          className="border border-red-800 mb-5"
-          src={logo} alt="Logo"
-   
-        />
-        
-        <Formik
-          initialValues={initialValues}
-          onSubmit={handleSubmit}
-          validationSchema={validationSchema}
-        >
-          {(formikProps) => (
-            <Form className="w-full">
-              <Field name="email">
-                {({ field, form }) => (
-                  <FormControl
-                    isInvalid={form.errors.email && form.touched.email}
-                    mb={4}
+    <Container maxW="md" py={8}>
+      <VStack spacing={6}>
+        <Box textAlign="center">
+          <img
+            src={logo}
+            alt="ELearnXpert Logo"
+            style={{ maxHeight: "60px", margin: "0 auto" }}
+          />
+          <Heading size="md" mt={2} color="gray.600">Sign in to your account</Heading>
+        </Box>
+
+        <Box w="100%" bg="white" borderRadius="md" boxShadow="sm" p={6}>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            validationSchema={validationSchema}
+          >
+            {(formikProps) => (
+              <Form>
+                <VStack spacing={4}>
+                  <Field name="email">
+                    {({ field, form }) => (
+                      <FormControl
+                        isInvalid={form.errors.email && form.touched.email}
+                      >
+                        <Input
+                          {...field}
+                          id="email"
+                          placeholder="Email address"
+                          size="md"
+                        />
+                        <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+
+                  <Field name="password">
+                    {({ field, form }) => (
+                      <FormControl
+                        isInvalid={form.errors.password && form.touched.password}
+                      >
+                        <Input
+                          {...field}
+                          type="password"
+                          id="password"
+                          placeholder="Password"
+                          size="md"
+                        />
+                        <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+
+                  <Button
+                    w="100%"
+                    mt={2}
+                    colorScheme="blue"
+                    type="submit"
+                    isLoading={formikProps.isSubmitting}
+                    size="md"
                   >
-                    <Input
-                      className="w-full"
-                      {...field}
-                      id="email"
-                      placeholder="Mobile Number Or Email"
-                    />
-                    <FormErrorMessage>{form.errors.email}</FormErrorMessage>
-                  </FormControl>
-                )}
-              </Field>
+                    Sign In
+                  </Button>
+                </VStack>
+              </Form>
+            )}
+          </Formik>
 
-              <Field name="password">
-                {({ field, form }) => (
-                  <FormControl
-                    isInvalid={form.errors.password && form.touched.password}
-                    mb={4}
-                  >
-                    <Input
-                      {...field}
-                      type="password"
-                      id="password"
-                      placeholder="Password"
-                    />
-                    <FormErrorMessage>{form.errors.password}</FormErrorMessage>
-                  </FormControl>
-                )}
-              </Field>
-              <p className="text-center">
-                
-              </p>
-              <p className="mt-5 text-center">
-                By signing up, you agree to our Terms , Privacy Policy and
-                Cookies Policy .
-              </p>
-              <Button
-                className="w-full"
-                mt={4}
-                colorScheme="blue"
-                type="submit"
-                isLoading={formikProps.isSubmitting}
-              >
-                Sign In
-              </Button>
+          <Box my={4} textAlign="center">
+            <Divider my={4} />
+            <Text fontSize="sm" color="gray.500" mb={2}>OR</Text>
+            <Button
+              as="a"
+              href="http://localhost:5454/oauth2/authorization/google"
+              w="100%"
+              variant="outline"
+              colorScheme="blue"
+              size="md"
+            >
+              Sign in with Google
+            </Button>
+          </Box>
+        </Box>
 
-              <Button
-                as="a"
-                href="http://localhost:5454/oauth2/authorization/google"
-                colorScheme="red"
-                mt={4}
-                width="100%"
-              >
-                Sign in with Google
-              </Button>
-
-
-            </Form>
-          )}
-        </Formik>
-      </Box>
-
-      </div>
-      
-      <div className="w-full border border-slate-300 mt-5">
-<p className="text-center py-2">If You Don't Have Already Account <span onClick={()=>navigate("/signup")} className="ml-2 text-blue-700 cursor-pointer">Sign Up</span></p>
-      </div>
-    </div>
+        <Box textAlign="center" p={4}>
+          <Text>
+            Don't have an account?{" "}
+            <Text
+              as="span"
+              color="blue.500"
+              fontWeight="medium"
+              cursor="pointer"
+              onClick={() => navigate("/signup")}
+            >
+              Sign Up
+            </Text>
+          </Text>
+        </Box>
+      </VStack>
+    </Container>
   );
 };
 
