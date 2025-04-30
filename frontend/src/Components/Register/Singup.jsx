@@ -5,12 +5,16 @@ import {
   FormControl,
   FormErrorMessage,
   Input,
+  Heading,
+  Text,
+  Container,
+  VStack,
   useToast,
 } from "@chakra-ui/react";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { signupAction } from "../../Redux/Auth/Action";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../Assets/logo1.png";
 
@@ -28,131 +32,147 @@ const validationSchema = Yup.object().shape({
 });
 
 const Signup = () => {
-  const initialValues = { email: "", username: "", password: "", name:"" };
-  const dispatch=useDispatch();
-  const {auth}=useSelector(store=>store);
-const navigate=useNavigate();
-const toast = useToast();
-console.log("auth :-",auth.signup?.username)
+  const initialValues = { email: "", username: "", password: "", name: "" };
+  const dispatch = useDispatch();
+  const { auth } = useSelector(store => store);
+  const navigate = useNavigate();
+  const toast = useToast();
 
-  const handleSubmit = (values,actions) => {
-    dispatch(signupAction(values))
-    console.log("signup",values);
+  const handleSubmit = (values, actions) => {
+    dispatch(signupAction(values));
     actions.setSubmitting(false);
   };
 
-  useEffect(()=>{
-if(auth.signup?.username){
-  
-  navigate("/login")
-  toast({
-    title: 'Account created successfully',
-    status: 'success',
-    duration: 8000,
-    isClosable: true,
-  })
-}
-  },[auth.signup])
+  useEffect(() => {
+    if (auth.signup?.username) {
+      navigate("/login");
+      toast({
+        title: 'Account created successfully',
+        status: 'success',
+        duration: 8000,
+        isClosable: true,
+      });
+    }
+  }, [auth.signup, navigate, toast]);
 
   return (
-    <div>
-        <div className="border border-slate-300 ">
-      <Box p={8} display="flex" flexDirection="column" alignItems="center">
-        <img
-          className="border border-red-800"
-          src={logo}
-          alt="Logo"
-        />
-        <p className="font-bold opacity-50 text-lg mb-10 text-center">
-          Experience the delightful learning experience with ELearnXpert.
-        </p>
-        <Formik
-          initialValues={initialValues}
-          onSubmit={handleSubmit}
-          validationSchema={validationSchema}
-        >
-          {(formikProps) => (
-            <Form className="w-full">
-              <Field name="email">
-                {({ field, form }) => (
-                  <FormControl
-                    isInvalid={form.errors.email && form.touched.email}
-                    mb={4}
+    <Container maxW="md" py={8}>
+      <VStack spacing={6}>
+        <Box textAlign="center">
+          <img
+            src={logo}
+            alt="ELearnXpert Logo"
+            style={{ maxHeight: "60px", margin: "0 auto" }}
+          />
+          <Heading size="md" mt={2} color="gray.600">Create your account</Heading>
+        </Box>
+
+        <Box w="100%" bg="white" borderRadius="md" boxShadow="sm" p={6}>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            validationSchema={validationSchema}
+          >
+            {(formikProps) => (
+              <Form>
+                <VStack spacing={4}>
+                  <Field name="email">
+                    {({ field, form }) => (
+                      <FormControl
+                        isInvalid={form.errors.email && form.touched.email}
+                      >
+                        <Input
+                          {...field}
+                          id="email"
+                          placeholder="Email address"
+                          size="md"
+                        />
+                        <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+
+                  <Field name="username">
+                    {({ field, form }) => (
+                      <FormControl
+                        isInvalid={form.errors.username && form.touched.username}
+                      >
+                        <Input 
+                          {...field} 
+                          id="username" 
+                          placeholder="Username"
+                          size="md"
+                        />
+                        <FormErrorMessage>{form.errors.username}</FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+
+                  <Field name="name">
+                    {({ field, form }) => (
+                      <FormControl
+                        isInvalid={form.errors.name && form.touched.name}
+                      >
+                        <Input 
+                          {...field} 
+                          id="name" 
+                          placeholder="Full Name"
+                          size="md"
+                        />
+                        <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+
+                  <Field name="password">
+                    {({ field, form }) => (
+                      <FormControl
+                        isInvalid={form.errors.password && form.touched.password}
+                      >
+                        <Input
+                          {...field}
+                          type="password"
+                          id="password"
+                          placeholder="Password"
+                          size="md"
+                        />
+                        <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+
+                  <Button
+                    w="100%"
+                    mt={2}
+                    colorScheme="blue"
+                    type="submit"
+                    isLoading={formikProps.isSubmitting}
+                    size="md"
                   >
-                    <Input
-                      className="w-full"
-                      {...field}
-                      id="email"
-                      placeholder="Mobile Number Or Email"
-                    />
-                    <FormErrorMessage>{form.errors.email}</FormErrorMessage>
-                  </FormControl>
-                )}
-              </Field>
-              <Field name="username">
-                {({ field, form }) => (
-                  <FormControl
-                    isInvalid={form.errors.username && form.touched.username}
-                    mb={4}
-                  >
-                    <Input {...field} id="username" placeholder="username" />
-                    <FormErrorMessage>{form.errors.username}</FormErrorMessage>
-                  </FormControl>
-                )}
-              </Field>
-              <Field name="name">
-                {({ field, form }) => (
-                  <FormControl
-                    isInvalid={form.errors.name && form.touched.name}
-                    mb={4}
-                  >
-                    <Input {...field} id="name" placeholder="Full Name" />
-                    <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-                  </FormControl>
-                )}
-              </Field>
-              <Field name="password">
-                {({ field, form }) => (
-                  <FormControl
-                    isInvalid={form.errors.password && form.touched.password}
-                    mb={4}
-                  >
-                    <Input
-                      {...field}
-                      type="password"
-                      id="password"
-                      placeholder="Password"
-                    />
-                    <FormErrorMessage>{form.errors.password}</FormErrorMessage>
-                  </FormControl>
-                )}
-              </Field>
-              <p className="text-center">
-              
-              </p>
-              <p className="mt-5 text-center">
-                By signing up, you agree to our Terms , Privacy Policy and
-                Cookies Policy .
-              </p>
-              <Button
-                className="w-full"
-                mt={4}
-                colorScheme="blue"
-                type="submit"
-                isLoading={formikProps.isSubmitting}
-              >
-                Sign Up
-              </Button>
-            </Form>
-          )}
-        </Formik>
-      </Box>
-    </div>
-    <div className="w-full border border-slate-300 mt-5">
-       <p className="text-center py-2">If You Have Already Account <span onClick={()=>navigate("/login")} className="ml-2 text-blue-700 cursor-pointer">Sign In</span></p>
-    </div>
-    </div>
-  
+                    Sign Up
+                  </Button>
+                </VStack>
+              </Form>
+            )}
+          </Formik>
+        </Box>
+
+        <Box textAlign="center" p={4}>
+          <Text>
+            Already have an account?{" "}
+            <Text
+              as="span"
+              color="blue.500"
+              fontWeight="medium"
+              cursor="pointer"
+              onClick={() => navigate("/login")}
+            >
+              Sign In
+            </Text>
+          </Text>
+        </Box>
+      </VStack>
+    </Container>
   );
 };
 
