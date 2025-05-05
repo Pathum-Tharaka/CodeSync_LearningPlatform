@@ -157,7 +157,7 @@ const LearningProgress = () => {
             label="Title"
             rules={[{ required: true, message: "Please enter a title" }]}
           >
-            <Input placeholder="e.g., Completed React Bootcamp" />
+            <Input placeholder="e.g., Completed Mern Codecamp" />
           </Form.Item>
 
           <Form.Item
