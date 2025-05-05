@@ -57,17 +57,18 @@ const LearningProgress = () => {
   const handleTemplateChange = (value) => {
     if (value === "tutorial") {
       form.setFieldsValue({
-        title: "📚 Completed a Tutorial",
+        title: "Completed a Tutorial",
         content: "Finished learning [topic] tutorial.",
       });
     } else if (value === "skill") {
       form.setFieldsValue({
-        title: "🛠️ Learned a New Skill",
+        title: "Learned a New Skill",
         content: "I learned how to [skill].",
+        
       });
     } else if (value === "project") {
       form.setFieldsValue({
-        title: "🚀 Built a Project",
+        title: "Built a Project",
         content: "I developed a project using [technology].",
       });
     }
