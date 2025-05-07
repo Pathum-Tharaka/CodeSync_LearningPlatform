@@ -1,68 +1,107 @@
-/* Container and Typography */
-.p-6 {
-    padding: 2rem;
-    background-color: #fafafa;
-  }
-  
-  .text-xl {
-    font-size: 1.25rem;
-  }
-  
-  .font-semibold {
-    font-weight: 600;
-  }
-  
-  .mb-4 {
-    margin-bottom: 1rem;
-  }
-  
-  /* Button Styling */
-  .ant-btn-primary {
-    background: #122439;
-    border: none;
-    border-radius: 1.5rem;
-    font-weight: bold;
-    padding: 0 1.25rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  .ant-btn-primary:hover {
-    opacity: 0.9;
-  }
-  
-  /* Modal */
-  .ant-modal-content {
-    border-radius: 1.25rem;
-    padding: 1.5rem;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-  }
-  
-  /* Inputs */
-  .ant-input,
-  .ant-textarea,
-  .ant-select-selector {
-    border-radius: 1rem;
-    background: #f9f9f9;
-    border: 1px solid #dbdbdb;
-  }
-  
-  /* List Styling */
-  .ant-list-item {
-    background: #fff;
-    border-radius: 1rem;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-  }
-  
-  .ant-list-item-meta-title {
-    font-size: 16px;
-    font-weight: 600;
-    color: #262626;
-  }
-  
-  .ant-list-item-meta-description {
-    font-size: 14px;
-    color: #555;
-  }
-  
+/* List container */
+.updates-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Individual update item */
+.update-card {
+  background: #ffffff;
+  padding: 1.5rem 2rem;
+  border-radius: 1.25rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ant-btn-primary {
+  background: #122439;
+  border: none;
+  border-radius: 1.5rem;
+  font-weight: bold;
+  padding: 0 1.25rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.update-card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Text styling */
+.update-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.update-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #1f2937;
+}
+
+.update-description {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+/* Icons */
+.update-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.update-actions .ant-btn {
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  font-size: 1.1rem;
+  transition: color 0.2s ease;
+}
+
+.update-actions .ant-btn:hover {
+  color: #2a5298;
+}
+.updates-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.update-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9f9fb;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.update-card:hover {
+  background: #f1f1f8;
+}
+
+.update-info {
+  flex-grow: 1;
+}
+
+.update-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.update-content {
+  margin: 4px 0 0;
+  color: #555;
+}
+
+.update-actions {
+  display: flex;
+  gap: 8px;
+}
