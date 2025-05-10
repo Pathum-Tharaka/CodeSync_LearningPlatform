@@ -1,11 +1,84 @@
+.logo {
+  font-family: 'Billabong', cursive;
+  font-size: 30px;
+  color: #222222;
+  text-shadow: 1px 1px 3px #000000;
+}
 
-  .logo {
-    font-family: 'Billabong', cursive;
-    font-size: 30px;
-    color: #222222;
-    text-shadow: 1px 1px 3px #000000;
-  }
+.hideItemName {
+  display: none;
+}
 
-  .hideItemName{
-    display: none;
+/* Main content adjustment for fixed sidebar */
+.main-content {
+  margin-left: 18rem; /* 72 * 4 = 288px */
+  width: calc(100% - 18rem);
+}
+
+/* Custom scrollbar for the sidebar */
+.sidebar-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Hover effects for menu items */
+.menu-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #3b82f6;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.menu-item:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Dropdown animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-menu {
+  animation: slideDown 0.2s ease-out;
+}
+
+/* Active state glow effect */
+.active-item {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* Ensure sidebar stays on top */
+.sidebar {
+  z-index: 50;
+}
