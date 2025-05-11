@@ -9,7 +9,7 @@ import com.backend.model.User;
 
 public interface PostService {
 
-	public Post createPost(Post post,Integer userId) throws UserException;
+	public Post createPost(Post post,Integer userId) throws UserException, PostException;
 
 	public Post editPost(Integer postId, Post updatedPost, Integer userId) throws PostException, UserException;
 
