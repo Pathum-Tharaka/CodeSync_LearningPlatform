@@ -31,6 +31,7 @@ const CreatePostModal = ({ onOpen, isOpen, onClose }) => {
 
   const [postData, setPostData] = useState({ 
     mediaUrls: [], 
+    mediaTypes: [],
     caption: '', 
     location: "" 
   });
@@ -63,24 +64,42 @@ const CreatePostModal = ({ onOpen, isOpen, onClose }) => {
   };
 
   const handleFiles = async (files) => {
-    const validFiles = files.filter(file => 
-      file.type.startsWith("image/") || file.type.startsWith("video/")
-    );
+    const validFiles = files.filter(file => {
+      const isImage = file.type.startsWith("image/");
+      const isVideo = file.type.startsWith("video/");
+      
+      if (!isImage && !isVideo) {
+        alert("Please select only image or video files.");
+        return false;
+      }
+      
+      if (isVideo && file.size > 100 * 1024 * 1024) { // 100MB limit for videos
+        alert("Video size should be less than 100MB");
+        return false;
+      }
+      
+      return true;
+    });
     
-    if (validFiles.length === 0) {
-      alert("Please select image or video files.");
-      return;
-    }
+    if (validFiles.length === 0) return;
 
     setUploadStatus("uploading");
     try {
-      const uploadPromises = validFiles.map(file => uploadToCloudinary(file));
-      const urls = await Promise.all(uploadPromises);
+      const uploadPromises = validFiles.map(async file => {
+        const url = await uploadToCloudinary(file);
+        const type = file.type.startsWith("image/") ? "image" : "video";
+        return { url, type };
+      });
+      
+      const results = await Promise.all(uploadPromises);
+      const validResults = results.filter(result => result.url);
       
       setPostData(prev => ({
         ...prev,
-        mediaUrls: [...prev.mediaUrls, ...urls.filter(url => url)]
+        mediaUrls: [...prev.mediaUrls, ...validResults.map(r => r.url)],
+        mediaTypes: [...prev.mediaTypes, ...validResults.map(r => r.type)]
       }));
+      
       setUploadStatus("uploaded");
     } catch (error) {
       console.error("Upload failed:", error);
@@ -104,6 +123,15 @@ const CreatePostModal = ({ onOpen, isOpen, onClose }) => {
   const handleSubmit = async () => {
     if (!token || postData.mediaUrls.length === 0) return;
     
+    // Validate that we have at least one photo and one video
+    const hasPhoto = postData.mediaTypes.includes("image");
+    const hasVideo = postData.mediaTypes.includes("video");
+    
+    if (!hasPhoto || !hasVideo) {
+      alert("Please include at least one photo and one video in your post.");
+      return;
+    }
+    
     const data = {
       jwt: token,
       data: postData,
@@ -117,13 +145,28 @@ const CreatePostModal = ({ onOpen, isOpen, onClose }) => {
     onClose();
     setFiles([]);
     setIsDragOver(false);
-    setPostData({ mediaUrls: [], caption: '', location: "" });
+    setPostData({ mediaUrls: [], mediaTypes: [], caption: '', location: "" });
     setUploadStatus("");
     setCurrentMediaIndex(0);
   };
 
-  const isVideo = (url) => {
-    return url.match(/\.(mp4|webm|ogg)$/i);
+  const renderMedia = (url, type) => {
+    if (type === "video") {
+      return (
+        <video
+          src={url}
+          controls
+          className="max-h-[70vh] w-full object-contain"
+        />
+      );
+    }
+    return (
+      <img
+        src={url}
+        alt="post"
+        className="max-h-[70vh] w-full object-contain"
+      />
+    );
   };
 
   return (
@@ -154,7 +197,8 @@ const CreatePostModal = ({ onOpen, isOpen, onClose }) => {
                 }`}
               >
                 <FaPhotoVideo className="text-4xl mx-auto mb-2 text-gray-500" />
-                <p className="text-gray-500 mb-3">Drag and drop photos or videos here</p>
+                <p className="text-gray-500 mb-3">Drag and drop photos and videos here</p>
+                <p className="text-sm text-gray-400 mb-3">Include at least one photo and one video</p>
                 <label
                   htmlFor="file-upload"
                   className="cursor-pointer inline-block bg-blue-500 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-600 transition"
@@ -171,44 +215,69 @@ const CreatePostModal = ({ onOpen, isOpen, onClose }) => {
                 />
               </div>
             )}
-  
-            {uploadStatus === "uploading" && <SpinnerCard />}
-  
-            {uploadStatus === "uploaded" && (
-              <div className="relative w-full h-full overflow-hidden flex items-center justify-center">
-                {postData.mediaUrls.map((url, index) => (
-                  <div
-                    key={index}
-                    className={`absolute inset-0 transition-opacity duration-300 ${
-                      index === currentMediaIndex ? "opacity-100" : "opacity-0"
-                    }`}
+
+            {uploadStatus === "uploading" && (
+              <div className="text-center">
+                <SpinnerCard />
+                <p className="mt-2">Uploading media...</p>
+              </div>
+            )}
+
+            {uploadStatus === "uploaded" && postData.mediaUrls.length > 0 && (
+              <div className="relative w-full h-full">
+                {renderMedia(postData.mediaUrls[currentMediaIndex], postData.mediaTypes[currentMediaIndex])}
+                
+                {/* Add Media Button */}
+                <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2">
+                  <label
+                    htmlFor="file-upload"
+                    className="cursor-pointer inline-block bg-blue-500 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-600 transition"
                   >
-                    {isVideo(url) ? (
-                      <video src={url} controls className="w-full h-full object-contain" />
-                    ) : (
-                      <img src={url} className="w-full h-full object-contain" alt="media" />
-                    )}
-                  </div>
-                ))}
-  
-                {/* Media Nav Arrows */}
+                    Add More Media
+                  </label>
+                  <input
+                    type="file"
+                    id="file-upload"
+                    accept="image/*,video/*"
+                    multiple
+                    onChange={handleOnChange}
+                    className="hidden"
+                  />
+                </div>
+
                 {postData.mediaUrls.length > 1 && (
                   <>
                     <IconButton
                       icon={<ChevronLeftIcon />}
+                      position="absolute"
+                      left="2"
+                      top="50%"
+                      transform="translateY(-50%)"
                       onClick={handlePrevMedia}
-                      className="absolute left-2 top-1/2 transform -translate-y-1/2"
-                      size="sm"
+                      aria-label="Previous media"
                     />
                     <IconButton
                       icon={<ChevronRightIcon />}
+                      position="absolute"
+                      right="2"
+                      top="50%"
+                      transform="translateY(-50%)"
                       onClick={handleNextMedia}
-                      className="absolute right-2 top-1/2 transform -translate-y-1/2"
-                      size="sm"
+                      aria-label="Next media"
                     />
                   </>
                 )}
-  
+
+                {/* Media type indicator */}
+                <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm">
+                  {postData.mediaTypes[currentMediaIndex] === "video" ? "Video" : "Photo"}
+                </div>
+
+                {/* Media count indicator */}
+                <div className="absolute top-2 left-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm">
+                  {postData.mediaUrls.length} {postData.mediaUrls.length === 1 ? 'item' : 'items'}
+                </div>
+
                 {/* Dots for slide indicator */}
                 <div className="absolute bottom-2 w-full flex justify-center space-x-2">
                   {postData.mediaUrls.map((_, index) => (

@@ -1,12 +1,22 @@
 .post {
     position: relative;
     overflow: hidden;
+    aspect-ratio: 1;
+    cursor: pointer;
   }
   
-  .post img {
+  .post img,
+  .post video {
     display: block;
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .post:hover img,
+  .post:hover video {
+    transform: scale(1.05);
   }
   
   .post:hover .overlay {
@@ -22,15 +32,129 @@
     background-color: rgba(0, 0, 0, 0.5);
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
   }
   
   .overlay-text {
+    color: white;
+    font-size: 1.2rem;
+    text-align: center;
+    width: 100%;
+    padding: 0 1rem;
+  }
+  
+  .overlay-text > div {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .overlay-text svg {
+    font-size: 1.5rem;
+  }
+  
+  /* Navigation buttons */
+  .post button {
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .post button:hover {
+    transform: scale(1.1);
+  }
+  
+  /* Media indicators */
+  .post .media-indicator {
+    backdrop-filter: blur(4px);
+    transition: all 0.2s ease-in-out;
+  }
+  
+  /* Slide dots */
+  .post .slide-dot {
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .post .slide-dot:hover {
+    transform: scale(1.2);
+  }
+
+  /* Modal styles */
+  .modal-content {
+    max-height: 90vh;
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .modal-media {
+    flex: 3;
+    position: relative;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-media img,
+  .modal-media video {
+    max-height: 90vh;
+    max-width: 100%;
+    object-fit: contain;
+  }
+  
+  .modal-details {
+    flex: 1;
+    min-width: 300px;
+    max-width: 400px;
+    overflow-y: auto;
+    background-color: white;
+  }
+  
+  .modal-navigation {
     position: absolute;
     top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem;
+    pointer-events: none;
+  }
+  
+  .modal-navigation button {
+    pointer-events: auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    padding: 0.5rem;
+    transition: all 0.2s ease;
+  }
+  
+  .modal-navigation button:hover {
+    background-color: white;
+    transform: scale(1.1);
+  }
+  
+  .modal-dots {
+    position: absolute;
+    bottom: 1rem;
     left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: medium;
-    text-align: center;
-    width: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    pointer-events: none;
+  }
+  
+  .modal-dots button {
+    pointer-events: auto;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    transition: all 0.2s ease;
+  }
+  
+  .modal-dots button.active {
+    background-color: white;
+    transform: scale(1.2);
   }

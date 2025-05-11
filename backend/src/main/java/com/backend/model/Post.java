@@ -23,6 +23,11 @@ public class Post {
     @Column(name = "media_url")
     private List<String> mediaUrls = new ArrayList<>();
 
+    @ElementCollection
+    @CollectionTable(name = "post_media_types", joinColumns = @JoinColumn(name = "post_id"))
+    @Column(name = "media_type")
+    private List<String> mediaTypes = new ArrayList<>();
+
     private String location;
     private LocalDateTime createdAt;
 
@@ -131,5 +136,12 @@ public class Post {
         this.likedByUsers = likedByUsers;
     }
 
+    public List<String> getMediaTypes() {
+        return mediaTypes;
+    }
+
+    public void setMediaTypes(List<String> mediaTypes) {
+        this.mediaTypes = mediaTypes;
+    }
 
 }
