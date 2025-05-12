@@ -88,4 +88,109 @@ body {
   font-weight: 500;
 }
 
+/* Subtle hover animation */
+.ant-btn-icon-only {
+  border-radius: 50%;
+  transition: background 0.3s;
+}
 
+.ant-btn-icon-only:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+
+.header-bar {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  padding: 1rem;
+  color: white;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-radius: 0 0 1rem 1rem;
+  margin-bottom: 2rem;
+}
+
+
+/* ===================== */
+/* 🌸 FORM CONTAINER 🌸  */
+/* ===================== */
+
+.ant-modal-content {
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  background: white;
+}
+
+
+
+.ant-form-item-label > label {
+  font-size: 14px;
+  color: #555;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.ant-input,
+.ant-textarea,
+.ant-picker,
+.ant-select-selector {
+  background-color: #f8f9fa;
+  border: 1px solid #dbdbdb;
+  padding: 10px 14px;
+  border-radius: 1rem;
+  font-size: 14px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ant-input:focus,
+.ant-textarea:focus,
+.ant-picker-focused,
+.ant-select-focused {
+  border-color: #ef476f;
+  box-shadow: 0 0 0 2px rgba(239, 71, 111, 0.2);
+}
+
+
+
+.ant-picker {
+  width: 100%;
+  font-size: 14px;
+  padding: 10px 14px;
+}
+
+
+
+.ant-checkbox-wrapper {
+  font-size: 14px;
+  color: #444;
+}
+
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #ef476f;
+  border-color: #ef476f;
+}
+
+
+
+.ant-input-textarea {
+  padding: 10px 14px;
+  font-size: 14px;
+}
+
+
+
+.ant-modal-footer .ant-btn-primary {
+  background: linear-gradient(to right, #f09433, #e6683c, #dc2743);
+  border: none;
+  border-radius: 2rem;
+  font-weight: bold;
+  padding: 0.5rem 1.25rem;
+  font-size: 14px;
+}
+
+.ant-modal-footer .ant-btn-default {
+  border-radius: 2rem;
+  padding: 0.5rem 1.25rem;
+  font-size: 14px;
+}
