@@ -21,4 +21,3 @@ public interface LearningProgressUpdateService {
     // Retrieves all learning progress updates for a specific user
     List<LearningProgressUpdate> getUserProgressUpdates(Integer userId) throws UserException;
 }
-// Compare this snippet from backend/src/main/java/com/backend/services/LearningProgressUpdateServiceImpl.java:
