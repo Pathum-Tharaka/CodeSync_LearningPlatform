@@ -7,3 +7,72 @@
     width: 100%;
    
 }
+.home-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Stories Section */
+  .stories-section {
+    margin-bottom: 30px;
+    padding: 15px 0;
+    border-bottom: 1px solid #dbdbdb;
+  }
+  
+  .stories-container {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 10px 0;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+  
+  .stories-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+  
+  .story-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 80px;
+  }
+  
+  /* Main Content Layout */
+  .main-content {
+    display: flex;
+    gap: 30px;
+  }
+  
+  .posts-section {
+    flex: 1;
+    max-width: 600px;
+  }
+  
+  .posts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .sidebar-section {
+    width: 300px;
+  }
+  
+  .sidebar-container {
+    position: sticky;
+    top: 20px;
+  }
+  
+  /* Existing styles */
+  .sidebarBox {
+    position: sticky;
+    top: 0px;
+  }
+  
+  .postsBox {
+    width: 100%;
+  }

@@ -36,7 +36,7 @@ public class PostController {
     private UserService userService;
 
     @PostMapping("/create")
-    public ResponseEntity<Post> createPostHandler(@RequestBody Post post, @RequestHeader("Authorization") String token) throws UserException {
+    public ResponseEntity<Post> createPostHandler(@RequestBody Post post, @RequestHeader("Authorization") String token) throws UserException, PostException {
 
         System.out.println("create post ---- " + post.getCaption());
 
@@ -67,10 +67,9 @@ public class PostController {
     }
 
 
-    @GetMapping("/")
-    public ResponseEntity<List<Post>> findAllPostHandler() throws PostException {
+    @GetMapping("/all")
+    public ResponseEntity<List<Post>> getAllPostsHandler() throws PostException {
         List<Post> posts = postService.findAllPost();
-
         return new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
     }
 

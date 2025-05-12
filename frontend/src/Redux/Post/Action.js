@@ -24,12 +24,16 @@ export const createPost = (data) => async (dispatch) => {
       body: JSON.stringify({
         caption: data.data.caption,
         mediaUrls: data.data.mediaUrls,
+        mediaTypes: data.data.mediaTypes,
         location: data.data.location
       }),
     });
 
     const resData = await res.json();
     dispatch({ type: CREATE_NEW_POST, payload: resData });
+    
+    // Fetch all posts after creating a new post
+    dispatch(getAllPostsAction({ jwt: data.jwt }));
   } catch (error) {
     console.log("error - ", error);
   }
