@@ -11,7 +11,6 @@ import {
   Modal,
   Form,
   Input,
-  List,
   message,
   Select
 } from "antd";
@@ -23,10 +22,10 @@ import {
   ToolOutlined,
   RocketOutlined,
 } from "@ant-design/icons";
-import "./LearningProgress.css"; // 👈 Make sure this CSS file is created
+import "./LearningProgress.css";
 
 const { Option } = Select;
-// This component is responsible for displaying and managing learning progress updates.
+
 const LearningProgress = () => {
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
@@ -40,7 +39,7 @@ const LearningProgress = () => {
   useEffect(() => {
     dispatch(getProgressUpdates(token));
   }, [dispatch]);
-// This effect fetches the progress updates when the component mounts.
+
   const handleSubmit = (values) => {
     if (editing) {
       dispatch(updateProgressUpdate(token, editing.id, values));
@@ -64,7 +63,6 @@ const LearningProgress = () => {
       form.setFieldsValue({
         title: "Learned a New Skill",
         content: "I learned how to [skill].",
-        
       });
     } else if (value === "project") {
       form.setFieldsValue({
@@ -76,7 +74,7 @@ const LearningProgress = () => {
 
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-semibold">Learning Progress Updates</h2>
         <Button
           type="primary"
@@ -87,12 +85,14 @@ const LearningProgress = () => {
         </Button>
       </div>
 
-      <List
-        dataSource={updates}
-        renderItem={(item) => (
-          <List.Item
-            key={item.id}
-            actions={[
+      <div className="updates-container">
+        {updates.map((item) => (
+          <div className="update-card" key={item.id}>
+            <div className="update-info">
+              <h3 className="update-title">{item.title}</h3>
+              <p className="update-content">{item.content}</p>
+            </div>
+            <div className="update-actions">
               <Button
                 icon={<EditOutlined />}
                 size="small"
@@ -101,7 +101,7 @@ const LearningProgress = () => {
                   form.setFieldsValue(item);
                   setIsModalOpen(true);
                 }}
-              />,
+              />
               <Button
                 icon={<DeleteOutlined />}
                 size="small"
@@ -111,15 +111,10 @@ const LearningProgress = () => {
                   message.success("Update deleted!");
                 }}
               />
-            ]}
-          >
-            <List.Item.Meta
-              title={item.title}
-              description={item.content}
-            />
-          </List.Item>
-        )}
-      />
+            </div>
+          </div>
+        ))}
+      </div>
 
       <Modal
         open={isModalOpen}
@@ -137,7 +132,6 @@ const LearningProgress = () => {
               <Select
                 placeholder="Select a template"
                 onChange={handleTemplateChange}
-                optionLabelProp="label"
               >
                 <Option value="tutorial" label="Completed Tutorial">
                   <FileTextOutlined /> Completed Tutorial
@@ -157,7 +151,7 @@ const LearningProgress = () => {
             label="Title"
             rules={[{ required: true, message: "Please enter a title" }]}
           >
-            <Input placeholder="e.g., Completed React Bootcamp" />
+            <Input placeholder="e.g., Completed Mern Codecamp" />
           </Form.Item>
 
           <Form.Item
@@ -165,10 +159,7 @@ const LearningProgress = () => {
             label="Details"
             rules={[{ required: true, message: "Please enter details" }]}
           >
-            <Input.TextArea
-              rows={4}
-              placeholder="What did you learn or complete?"
-            />
+            <Input.TextArea rows={4} placeholder="What did you learn or complete?" />
           </Form.Item>
         </Form>
       </Modal>

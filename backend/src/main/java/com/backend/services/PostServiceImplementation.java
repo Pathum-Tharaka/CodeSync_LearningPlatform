@@ -33,8 +33,24 @@ public class PostServiceImplementation implements PostService {
     private NotificationService notificationService;
 
     @Override
-    public Post createPost(Post post, Integer userId) throws UserException {
+    public Post createPost(Post post, Integer userId) throws UserException, PostException {
         User user = userService.findUserById(userId);
+
+        // Validate media requirements
+        if (post.getMediaUrls() == null || post.getMediaUrls().isEmpty()) {
+            throw new PostException("Post must contain at least one media file");
+        }
+
+        if (post.getMediaTypes() == null || post.getMediaTypes().isEmpty()) {
+            throw new PostException("Media types must be specified");
+        }
+
+        boolean hasPhoto = post.getMediaTypes().contains("image");
+        boolean hasVideo = post.getMediaTypes().contains("video");
+
+        if (!hasPhoto || !hasVideo) {
+            throw new PostException("Post must contain at least one photo and one video");
+        }
 
         UserDto userDto = new UserDto();
         userDto.setEmail(user.getEmail());
@@ -71,7 +87,7 @@ public class PostServiceImplementation implements PostService {
 
     @Override
     public List<Post> findAllPost() throws PostException {
-        List<Post> posts = postRepo.findAll();
+        List<Post> posts = postRepo.findAllOrderByCreatedAtDesc();
         if (posts.size() > 0) {
             return posts;
         }
@@ -206,11 +222,23 @@ public class PostServiceImplementation implements PostService {
         }
 
         if (updatedPost.getMediaUrls() != null && !updatedPost.getMediaUrls().isEmpty()) {
+            // Validate media requirements for updates
+            if (updatedPost.getMediaTypes() == null || updatedPost.getMediaTypes().isEmpty()) {
+                throw new PostException("Media types must be specified");
+            }
+
+            boolean hasPhoto = updatedPost.getMediaTypes().contains("image");
+            boolean hasVideo = updatedPost.getMediaTypes().contains("video");
+
+            if (!hasPhoto || !hasVideo) {
+                throw new PostException("Post must contain at least one photo and one video");
+            }
+
             existingPost.setMediaUrls(updatedPost.getMediaUrls());
+            existingPost.setMediaTypes(updatedPost.getMediaTypes());
         }
 
         return postRepo.save(existingPost);
-
     }
 
 }
