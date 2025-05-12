@@ -555,6 +555,193 @@ const showResourceModal = (mode = 'create', resource = null, topicId = null) => 
             ))}
           </Collapse>
 
-    
+    {selectedPlan && (
+            <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold">{selectedPlan.title}</h2>
+                <Space>
+                  <Button
+                    type="primary"
+                    icon={<PlusOutlined />}
+                    onClick={() => showTopicModal('create', null, selectedPlan.id)}
+                  >
+                    Add Topic
+                  </Button>
+                  <Button
+                    icon={<EditOutlined />}
+                    onClick={() => showPlanModal('edit', selectedPlan)}
+                  >
+                    Edit Plan
+                  </Button>
+                </Space>
+              </div>
+              <p className="text-gray-700 mb-4">{selectedPlan.description}</p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-white p-4 rounded-lg shadow">
+                  <h3 className="font-medium mb-2">Completion Progress</h3>
+                  {selectedPlan.topics?.length > 0 ? (
+                    <>
+                      <div className="mb-2">
+                        <span className="text-gray-600">
+                          {selectedPlan.topics.filter(t => t.completed).length} of {selectedPlan.topics.length} topics completed
+                        </span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2.5">
+                        <div 
+                          className="bg-blue-600 h-2.5 rounded-full" 
+                          style={{ 
+                            width: `${(selectedPlan.topics.filter(t => t.completed).length / selectedPlan.topics.length) * 100}%` 
+                          }}
+                        ></div>
+                      </div>
+                    </>
+                  ) : (
+                    <p className="text-gray-500">No topics to track progress</p>
+                  )}
+                </div>
+                
+                <div className="bg-white p-4 rounded-lg shadow">
+                  <h3 className="font-medium mb-2">Quick Actions</h3>
+                  <Space>
+                    <Button
+                      type="primary"
+                      icon={<PlusOutlined />}
+                      onClick={() => showTopicModal('create', null, selectedPlan.id)}
+                    >
+                      Add Topic
+                    </Button>
+                    <Button
+                      icon={<LinkOutlined />}
+                      onClick={() => {
+                        if (selectedPlan.topics?.length > 0) {
+                          showResourceModal('create', null, selectedPlan.topics[0].id);
+                        }
+                      }}
+                      disabled={!selectedPlan.topics || selectedPlan.topics.length === 0}
+                    >
+                      Add Resource
+                    </Button>
+                  </Space>
+                </div>
+              </div>
+            </div>
+          )}
+        </>
+      )}
+
+      <Modal
+        title={planModal.mode === 'create' ? 'Create Learning Plan' : 'Edit Learning Plan'}
+        visible={planModal.visible}
+        onCancel={() => setPlanModal({...planModal, visible: false})}
+        onOk={() => planForm.submit()}
+        destroyOnClose
+        width={600}
+      >
+        <Form 
+          form={planForm} 
+          onFinish={planModal.mode === 'create' ? handleCreatePlan : handleUpdatePlan}
+          layout="vertical"
+        >
+          <Form.Item 
+            name="title" 
+            label="Plan Title" 
+            rules={[
+              { required: true, message: 'Please input the plan title!' },
+              { max: 100, message: 'Title must be less than 100 characters' }
+            ]}
+          >
+            <Input placeholder="Enter plan title" />
+          </Form.Item>
+          <Form.Item 
+            name="description" 
+            label="Description"
+            rules={[{ max: 500, message: 'Description must be less than 500 characters' }]}
+          >
+            <TextArea rows={4} placeholder="Describe what you want to learn" />
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      <Modal
+        title={topicModal.mode === 'create' ? 'Add New Topic' : 'Edit Topic'}
+        visible={topicModal.visible}
+        onCancel={() => setTopicModal({...topicModal, visible: false})}
+        onOk={() => topicForm.submit()}
+        destroyOnClose
+        width={600}
+      >
+        <Form 
+          form={topicForm} 
+          onFinish={topicModal.mode === 'create' ? handleCreateTopic : handleUpdateTopic}
+          layout="vertical"
+        >
+          <Form.Item 
+            name="title" 
+            label="Topic Title" 
+            rules={[
+              { required: true, message: 'Please input the topic title!' },
+              { max: 100, message: 'Title must be less than 100 characters' }
+            ]}
+          >
+            <Input placeholder="Enter topic title" />
+          </Form.Item>
+          <Form.Item 
+            name="description" 
+            label="Description"
+            rules={[{ max: 500, message: 'Description must be less than 500 characters' }]}
+          >
+            <TextArea rows={3} placeholder="Describe what this topic covers" />
+          </Form.Item>
+          <Form.Item name="targetCompletionDate" label="Target Completion Date">
+            <DatePicker 
+              style={{ width: '100%' }} 
+              placeholder="Select target date"
+            />
+          </Form.Item>
+          <Form.Item name="completed" valuePropName="checked">
+            <Checkbox>Mark as completed</Checkbox>
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      <Modal
+        title={resourceModal.mode === 'create' ? 'Add New Resource' : 'Edit Resource'}
+        visible={resourceModal.visible}
+        onCancel={() => setResourceModal({...resourceModal, visible: false})}
+        onOk={() => resourceForm.submit()}
+        destroyOnClose
+        width={600}
+      >
+        <Form 
+          form={resourceForm} 
+          onFinish={resourceModal.mode === 'create' ? handleCreateResource : handleUpdateResource}
+          layout="vertical"
+        >
+          <Form.Item 
+            name="url" 
+            label="Resource URL" 
+            rules={[
+              { required: true, message: 'Please input the resource URL!' },
+              { type: 'url', message: 'Please enter a valid URL!' }
+            ]}
+          >
+            <Input 
+              prefix={<LinkOutlined />} 
+              placeholder="https://example.com/resource" 
+            />
+          </Form.Item>
+          <Form.Item 
+            name="description" 
+            label="Description (Optional)"
+            rules={[{ max: 200, message: 'Description must be less than 200 characters' }]}
+          >
+            <Input placeholder="Brief description of the resource" />
+          </Form.Item>
+        </Form>
+      </Modal>
+    </div>
+  );
+};
 
 export default LearningPlan;      
