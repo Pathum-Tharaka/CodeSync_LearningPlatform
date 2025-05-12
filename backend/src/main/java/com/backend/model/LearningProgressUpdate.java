@@ -4,26 +4,36 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-//learning progress update entity class
+
+// Learning progress update entity class
 // This class represents the learning progress update entity in the database
 @Entity
 public class LearningProgressUpdate {
 
+    // Primary key for the learning progress update
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Title of the progress update
     private String title;
+
+    // Content/details of the progress update
     private String content;
+
+    // Timestamp for when the update was created
     private LocalDateTime createdAt;
 
+    // Many-to-one relationship with User entity
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
+    @JsonBackReference // Prevents infinite recursion during JSON serialization
     private User user;
 
+    // Default constructor
     public LearningProgressUpdate() {}
 
+    // Constructor with all fields
     public LearningProgressUpdate(Long id, String title, String content, LocalDateTime createdAt, User user) {
         this.id = id;
         this.title = title;
@@ -32,6 +42,7 @@ public class LearningProgressUpdate {
         this.user = user;
     }
 
+    // Getter and setter methods
     public Long getId() {
         return id;
     }
