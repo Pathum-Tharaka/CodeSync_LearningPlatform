@@ -259,27 +259,3 @@ export const updateResource = (data) => async (dispatch) => {
   }
 };
 
-export const deleteResource = (data) => async (dispatch) => {
-  try {
-    const res = await fetch(`${BASE_URL}/api/learning_plan/resources/${data.resourceId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: "Bearer " + data.jwt,
-      },
-    });
-    
-    if (res.status === 403) {
-      throw new Error('You do not have permission to delete this resource');
-    }
-    
-    if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData.message || 'Failed to delete resource');
-    }
-    
-    dispatch({ type: DELETE_RESOURCE, payload: data.resourceId });
-  } catch (error) {
-    console.error("Error deleting resource:", error);
-    throw error;
-  }
-};

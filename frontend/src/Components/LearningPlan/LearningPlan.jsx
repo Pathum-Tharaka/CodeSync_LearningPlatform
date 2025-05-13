@@ -713,32 +713,7 @@ const showResourceModal = (mode = 'create', resource = null, topicId = null) => 
         destroyOnClose
         width={600}
       >
-        <Form 
-          form={resourceForm} 
-          onFinish={resourceModal.mode === 'create' ? handleCreateResource : handleUpdateResource}
-          layout="vertical"
-        >
-          <Form.Item 
-            name="url" 
-            label="Resource URL" 
-            rules={[
-              { required: true, message: 'Please input the resource URL!' },
-              { type: 'url', message: 'Please enter a valid URL!' }
-            ]}
-          >
-            <Input 
-              prefix={<LinkOutlined />} 
-              placeholder="https://example.com/resource" 
-            />
-          </Form.Item>
-          <Form.Item 
-            name="description" 
-            label="Description (Optional)"
-            rules={[{ max: 200, message: 'Description must be less than 200 characters' }]}
-          >
-            <Input placeholder="Brief description of the resource" />
-          </Form.Item>
-        </Form>
+        
       </Modal>
     </div>
   );
