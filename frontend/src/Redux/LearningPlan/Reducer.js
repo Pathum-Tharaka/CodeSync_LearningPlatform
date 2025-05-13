@@ -56,7 +56,101 @@ export const learningPlanReducer = (store = initialState, { type, payload }) => 
         error: null
       };
 
-    
+    case ADD_TOPIC:
+      return {
+        ...store,
+        plans: store.plans.map(plan =>
+          plan.id === payload.planId
+            ? { 
+                ...plan, 
+                topics: [...(plan.topics || []), payload.topic],
+                updatedAt: new Date().toISOString()
+              }
+            : plan
+        ),
+        loading: false,
+        error: null
+      };
+
+    case UPDATE_TOPIC:
+      return {
+        ...store,
+        plans: store.plans.map(plan => ({
+          ...plan,
+          topics: (plan.topics || []).map(topic =>
+            topic.id === payload.id ? payload : topic
+          ),
+          updatedAt: new Date().toISOString()
+        })),
+        loading: false,
+        error: null
+      };
+
+    case DELETE_TOPIC:
+      return {
+        ...store,
+        plans: store.plans.map(plan => ({
+          ...plan,
+          topics: (plan.topics || []).filter(topic => topic.id !== payload),
+          updatedAt: new Date().toISOString()
+        })),
+        loading: false,
+        error: null
+      };
+
+    case ADD_RESOURCE:
+      return {
+        ...store,
+        plans: store.plans.map(plan => ({
+          ...plan,
+          topics: (plan.topics || []).map(topic =>
+            topic.id === payload.topicId
+              ? { 
+                  ...topic, 
+                  resources: [...(topic.resources || []), payload.resource],
+                  updatedAt: new Date().toISOString()
+                }
+              : topic
+          ),
+          updatedAt: new Date().toISOString()
+        })),
+        loading: false,
+        error: null
+      };
+
+    case UPDATE_RESOURCE:
+      return {
+        ...store,
+        plans: store.plans.map(plan => ({
+          ...plan,
+          topics: (plan.topics || []).map(topic => ({
+            ...topic,
+            resources: (topic.resources || []).map(resource =>
+              resource.id === payload.id ? payload : resource
+            ),
+            updatedAt: new Date().toISOString()
+          })),
+          updatedAt: new Date().toISOString()
+        })),
+        loading: false,
+        error: null
+      };
+
+    case DELETE_RESOURCE:
+      return {
+        ...store,
+        plans: store.plans.map(plan => ({
+          ...plan,
+          topics: (plan.topics || []).map(topic => ({
+            ...topic,
+            resources: (topic.resources || []).filter(resource => resource.id !== payload),
+            updatedAt: new Date().toISOString()
+          })),
+          updatedAt: new Date().toISOString()
+        })),
+        loading: false,
+        error: null
+      };
 
     default:
       return store;
