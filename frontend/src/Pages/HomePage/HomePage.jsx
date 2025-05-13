@@ -53,18 +53,7 @@ const HomePage = () => {
 
        <div className="mt-10 flex w-[100%] justify-center">
         <div className="flex flex-col w-[100%] px-10 items-center">
-          {storyUsers.length> 0 && <div  className="flex  space-x-2 border p-4 rounded-md justify-start w-full mb-[3rem]">
-            {storyUsers.map((item, index) => <StoryCircle
-              
-              key={index}
-              
-              image={
-               item?.image || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-              }
-              username={item?.username}
-              userId={item?.id}
-            />)}
-          </div>}
+          
           <div className="space-y-10 postsBox w-full">
             {sortedPosts?.length>0 && sortedPosts?.map((item) => (
               <PostCard
