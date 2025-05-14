@@ -21,6 +21,15 @@ public class LearningProgressUpdate {
     // Content/details of the progress update
     private String content;
 
+    // Milestone of the progress update
+    private String milestone;
+
+    // Start date of the progress update
+    private LocalDateTime startDate;
+
+    // End date of the progress update
+    private LocalDateTime endDate;
+
     // Timestamp for when the update was created
     private LocalDateTime createdAt;
 
@@ -34,10 +43,15 @@ public class LearningProgressUpdate {
     public LearningProgressUpdate() {}
 
     // Constructor with all fields
-    public LearningProgressUpdate(Long id, String title, String content, LocalDateTime createdAt, User user) {
+    public LearningProgressUpdate(Long id, String title, String content, String milestone, 
+                                LocalDateTime startDate, LocalDateTime endDate, 
+                                LocalDateTime createdAt, User user) {
         this.id = id;
         this.title = title;
         this.content = content;
+        this.milestone = milestone;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.createdAt = createdAt;
         this.user = user;
     }
@@ -81,5 +95,30 @@ public class LearningProgressUpdate {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    // New getters and setters
+    public String getMilestone() {
+        return milestone;
+    }
+
+    public void setMilestone(String milestone) {
+        this.milestone = milestone;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
     }
 }

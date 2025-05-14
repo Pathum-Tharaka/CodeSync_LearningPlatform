@@ -234,7 +234,8 @@ export const editPOst = (data) => async (dispatch) => {
             body: JSON.stringify({
                 caption: data.data.caption,
                 location: data.data.location,
-                mediaUrls: data.data.mediaUrls
+                mediaUrls: data.data.mediaUrls,
+                mediaTypes: data.data.mediaTypes
             }),
         });
 
@@ -244,12 +245,17 @@ export const editPOst = (data) => async (dispatch) => {
 
         const updatedPost = await res.json();
         console.log("Post updated successfully:", updatedPost);
+        
+        // First dispatch the edit action
         dispatch({ type: EDIT_POST, payload: updatedPost });
         
-        // Optionally refresh the posts after edit
-        dispatch(getAllPostsAction({ jwt: data.jwt }));
+        // Then refresh all posts to ensure UI is updated
+        await dispatch(getAllPostsAction({ jwt: data.jwt }));
+        
+        return updatedPost;
     } catch (error) {
         console.error("Error updating post:", error);
+        throw error;
     }
 };
 

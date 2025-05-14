@@ -152,6 +152,7 @@ public class PostController {
         updatedPost.setLocation(postEditDto.getLocation());
         if (postEditDto.getMediaUrls() != null && !postEditDto.getMediaUrls().isEmpty()) {
             updatedPost.setMediaUrls(postEditDto.getMediaUrls());
+            updatedPost.setMediaTypes(postEditDto.getMediaTypes());
         }
 
         Post post = postService.editPost(postId, updatedPost, user.getId());
