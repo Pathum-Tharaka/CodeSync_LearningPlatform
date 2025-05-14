@@ -44,6 +44,7 @@ const CommentModal = ({
   const [commentContent, setCommentContent] = useState("");
   const { postId } = useParams();
   const navigate = useNavigate();
+  const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
 
   // console.log("coments ---- ",comments)
 
@@ -93,13 +94,61 @@ const CommentModal = ({
         <ModalOverlay />
         <ModalContent>
           <ModalBody>
-            <div className="flex h-[75vh] ">
-              <div className="w-[45%] flex flex-col justify-center">
-                <img
-                  className="max-h-full max-w-full"
-                  src={post.singlePost?.image}
-                  alt="Upload photo"
-                />
+            <div className="flex h-[75vh]">
+              <div className="w-[45%] flex flex-col justify-center relative bg-black">
+                {post.singlePost?.mediaUrls?.map((url, index) => (
+                  <div 
+                    key={index} 
+                    className={`${index === currentMediaIndex ? "block" : "hidden"} h-full flex items-center justify-center`}
+                  >
+                    {post.singlePost?.mediaTypes?.[index] === "video" ? (
+                      <video
+                        src={url}
+                        controls
+                        className="max-h-[75vh] w-full object-contain"
+                        playsInline
+                      />
+                    ) : (
+                      <img
+                        className="max-h-[75vh] w-full object-contain"
+                        src={url}
+                        alt={`Post media ${index + 1}`}
+                      />
+                    )}
+                  </div>
+                ))}
+                {post.singlePost?.mediaUrls?.length > 1 && (
+                  <>
+                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+                      {post.singlePost.mediaUrls.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setCurrentMediaIndex(index)}
+                          className={`w-2 h-2 rounded-full transition-colors duration-200 ${
+                            index === currentMediaIndex ? "bg-white" : "bg-gray-500"
+                          }`}
+                          aria-label={`Go to media ${index + 1}`}
+                        />
+                      ))}
+                    </div>
+                    <button
+                      onClick={() => setCurrentMediaIndex(prev => 
+                        prev === 0 ? post.singlePost.mediaUrls.length - 1 : prev - 1
+                      )}
+                      className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-opacity"
+                    >
+                      ←
+                    </button>
+                    <button
+                      onClick={() => setCurrentMediaIndex(prev => 
+                        prev === post.singlePost.mediaUrls.length - 1 ? 0 : prev + 1
+                      )}
+                      className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-opacity"
+                    >
+                      →
+                    </button>
+                  </>
+                )}
               </div>
               <div className="w-[55%] pl-10 relative">
                 <div className="reqUser flex justify-between items-center py-5">
