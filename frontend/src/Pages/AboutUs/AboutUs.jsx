@@ -6,7 +6,7 @@ const AboutUs = () => {
       className="w-full h-screen bg-cover bg-center flex items-center justify-center relative"
       style={{
         backgroundImage:
-          "url('https://www.tastingtable.com/img/gallery/20-cake-hacks-to-craft-perfect-confections-every-time/intro-1690997736.jpg')",
+          "url('https://www.secgaps.com/wp-content/uploads/2024/03/explore-the-role-of-devsecops-in-modern-cybersecur-upscaled-scaled.jpg')",
       }}
     >
       {/* Dark Overlay */}
