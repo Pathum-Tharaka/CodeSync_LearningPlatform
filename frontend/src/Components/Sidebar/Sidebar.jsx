@@ -44,7 +44,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="fixed top-0 left-0 h-screen w-72 bg-white border-r border-gray-100 flex flex-col shadow-sm">
+    <div className="fixed top-0 left-0 h-screen w-71 bg-white border-r border-gray-100 flex flex-col shadow-sm">
       {/* Top - Logo */}
       <div className="p-6 border-b border-gray-100">
         <img src={logo} alt="Logo" className="w-full max-w-[180px] mx-auto" />
