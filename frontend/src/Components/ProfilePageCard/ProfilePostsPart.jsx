@@ -20,7 +20,7 @@ const ProfilePostsPart = ({user}) => {
       icon: <AiOutlineTable className="text-xs" />,
       activeTab: "",
     },
-    { tab: "Reels", icon: <RiVideoLine className="text-xs" />, activeTab: "" },
+   
     { tab: "Saved", icon: <BiBookmark className="text-xs" />, activeTab: "" },
     {
       tab: "Tagged",
@@ -72,12 +72,6 @@ const ProfilePostsPart = ({user}) => {
                 <ReqUserPostCard post={item} />
               </div>
             ))}
-          </div>
-        )}
-        
-        {activeTab === "Reels" && (
-          <div className="text-center py-10 text-gray-500">
-            No reels available
           </div>
         )}
         
