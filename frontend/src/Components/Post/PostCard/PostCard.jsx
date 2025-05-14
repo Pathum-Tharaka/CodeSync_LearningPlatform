@@ -325,20 +325,20 @@ const PostCard = ({
             )}
             <FaRegComment
               onClick={handleOpenCommentModal}
-              className="text-xl cursor-pointer hover:text-blue-500 transition-colors"
+              className="text-xl cursor-pointer hover:text-[#3B82F6] transition-colors"
             />
-            <RiSendPlaneLine className="text-xl cursor-pointer hover:text-blue-500 transition-colors" />
+            <RiSendPlaneLine className="text-xl cursor-pointer hover:text-[#3B82F6] transition-colors" />
           </div>
           <div>
             {isSaved ? (
               <BsBookmarkFill
                 onClick={handleUnSavePost}
-                className="text-xl cursor-pointer text-blue-500 hover:text-blue-600 transition-colors"
+                className="text-xl cursor-pointer text-[#3B82F6] hover:text-[#2563EB] transition-colors"
               />
             ) : (
               <BsBookmark
                 onClick={handleSavePost}
-                className="text-xl cursor-pointer hover:text-blue-500 transition-colors"
+                className="text-xl cursor-pointer hover:text-[#3B82F6] transition-colors"
               />
             )}
           </div>
@@ -379,7 +379,7 @@ const PostCard = ({
           {commentContent && (
             <button
               onClick={handleAddComment}
-              className="text-blue-500 font-semibold text-sm hover:text-blue-600 transition-colors"
+              className="text-[#3B82F6] font-semibold text-sm hover:text-[#2563EB] transition-colors"
             >
               Post
             </button>

@@ -180,6 +180,8 @@ const CreatePostModal = ({ onOpen, isOpen, onClose }) => {
             colorScheme="blue"
             size="sm"
             isDisabled={postData.mediaUrls.length === 0}
+            bg="#3B82F6"
+            _hover={{ bg: "#2563EB" }}
           >
             Share
           </Button>
@@ -201,7 +203,7 @@ const CreatePostModal = ({ onOpen, isOpen, onClose }) => {
                 <p className="text-sm text-gray-400 mb-3">Include at least one photo and one video</p>
                 <label
                   htmlFor="file-upload"
-                  className="cursor-pointer inline-block bg-blue-500 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-600 transition"
+                  className="cursor-pointer inline-block bg-[#3B82F6] text-white px-4 py-2 rounded-md text-sm hover:bg-[#2563EB] transition"
                 >
                   Select from Computer
                 </label>
@@ -231,7 +233,7 @@ const CreatePostModal = ({ onOpen, isOpen, onClose }) => {
                 <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2">
                   <label
                     htmlFor="file-upload"
-                    className="cursor-pointer inline-block bg-blue-500 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-600 transition"
+                    className="cursor-pointer inline-block bg-[#3B82F6] text-white px-4 py-2 rounded-md text-sm hover:bg-[#2563EB] transition"
                   >
                     Add More Media
                   </label>
