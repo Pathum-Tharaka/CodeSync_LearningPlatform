@@ -34,7 +34,14 @@ export const postReducer=(store=initialState, {type,payload})=>{
         return{...store, deletedPost:payload}
     }
     else if(type===EDIT_POST){
-        return{...store,updatedPost:payload}
+        const updatedPosts = store.posts.map(post => 
+            post.id === payload.id ? payload : post
+        );
+        return{
+            ...store,
+            updatedPost: payload,
+            posts: updatedPosts
+        }
     }
     else if(type===GET_ALL_POSTS){
         return{...store,posts:payload}

@@ -26,6 +26,20 @@ public class LearningProgressUpdateServiceImpl implements LearningProgressUpdate
         User user = userService.findUserById(userId); // Retrieve user by ID
         update.setUser(user); // Associate update with the user
         update.setCreatedAt(LocalDateTime.now()); // Set creation timestamp
+        
+        // Ensure dates are set
+        if (update.getStartDate() == null) {
+            update.setStartDate(LocalDateTime.now());
+        }
+        if (update.getEndDate() == null) {
+            update.setEndDate(update.getStartDate().plusDays(7)); // Default to 7 days if not specified
+        }
+        
+        // Set default milestone if not specified
+        if (update.getMilestone() == null) {
+            update.setMilestone("Beginner");
+        }
+        
         return updateRepository.save(update); // Save the update to the database
     }
 
@@ -37,6 +51,9 @@ public class LearningProgressUpdateServiceImpl implements LearningProgressUpdate
         if (!existing.getUser().getId().equals(userId)) throw new RuntimeException("Unauthorized"); // Check ownership
         existing.setTitle(update.getTitle()); // Update title
         existing.setContent(update.getContent()); // Update content
+        existing.setMilestone(update.getMilestone());
+        existing.setStartDate(update.getStartDate());
+        existing.setEndDate(update.getEndDate());
         return updateRepository.save(existing); // Save changes
     }
 

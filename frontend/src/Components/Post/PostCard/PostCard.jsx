@@ -189,167 +189,201 @@ const PostCard = ({
     setOpenEditPostModal(true);
   };
 
-  return (
-    <div>
-      <div className="flex flex-col items-center w-full border rounded-md">
-        <div className="flex justify-between items-center w-full py-4 px-5">
-          <div className="flex items-center">
-            <img
-              className="w-12 h-12 rounded-full"
-              src={
-                post.user.userImage ||
-                "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-              }
-              alt=""
-            />
+  // Media Slider Section
+  const renderMedia = (url, type) => {
+    if (type === "video") {
+      return (
+        <video
+          src={url}
+          controls
+          className="w-full"
+          playsInline
+        />
+      );
+    }
+    return (
+      <img
+        src={url}
+        alt={`Post media ${currentMediaIndex + 1}`}
+        className="w-full"
+      />
+    );
+  };
 
-            <div className="pl-2">
-              <p className="font-semibold text-sm flex items-center">
-                <span
-                  onClick={() => handleNavigate(username)}
-                  className="cursor-pointer"
-                >
-                  {post?.user?.username}
-                </span>
-                <span className="opacity-50 flex items-center">
-                  <BsDot />
-                  {timeDifference(post?.createdAt)}
-                </span>
-              </p>
-              <p className="font-thin text-sm">{location}</p>
-            </div>
-          </div>
+  return (
+    <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+      {/* Post Header */}
+      <div className="flex justify-between items-center p-4 border-b">
+        <div className="flex items-center space-x-3">
+          <img
+            className="w-10 h-10 rounded-full object-cover ring-2 ring-blue-500"
+            src={
+              post.user.userImage ||
+              "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+            }
+            alt=""
+          />
           <div>
-            <div className="dropdown">
-              <BsThreeDots onClick={handleClick} className="dots" />
-              {isOwnPost && (
-                <div className="dropdown-content">
-                  {showDropdown && (
-                    <div className="p-2 w-[10rem] shadow-xl bg-white">
-                      <p
-                        onClick={handleOpenEditPostModal}
-                        className="hover:bg-slate-300 py-2 px-4 cursor-pointer font-semibold"
-                      >
-                        Edit
-                      </p>
-                      <hr />
-                      <p
-                        onClick={() => handleDeletePost(post.id)}
-                        className="hover:bg-slate-300 px-4 py-2 cursor-pointer font-semibold"
-                      >
-                        Delete
-                      </p>
-                    </div>
-                  )}
+            <p className="font-semibold text-sm flex items-center">
+              <span
+                onClick={() => handleNavigate(username)}
+                className="cursor-pointer hover:text-blue-500 transition-colors"
+              >
+                {post?.user?.username}
+              </span>
+              <span className="opacity-50 flex items-center">
+                <BsDot />
+                {timeDifference(post?.createdAt)}
+              </span>
+            </p>
+            <p className="text-sm text-gray-500">{location}</p>
+          </div>
+        </div>
+        <div className="relative">
+          <BsThreeDots 
+            onClick={handleClick} 
+            className="dots text-xl cursor-pointer hover:text-blue-500 transition-colors" 
+          />
+          {isOwnPost && (
+            <div className="dropdown-content">
+              {showDropdown && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                  <button
+                    onClick={handleOpenEditPostModal}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDeletePost(post.id)}
+                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                  >
+                    Delete
+                  </button>
                 </div>
               )}
             </div>
-          </div>
-        </div>
-
-        {/* Media Slider Section */}
-        <div className="w-full relative">
-          {post.mediaUrls?.map((url, index) => (
-            <div
-              key={index}
-              className={`${index === currentMediaIndex ? "block" : "hidden"}`}
-            >
-              {isVideo(url) ? (
-                <video
-                  src={url}
-                  controls
-                  className="w-full"
-                />
-              ) : (
-                <img
-                  src={url}
-                  alt={`Post media ${index + 1}`}
-                  className="w-full"
-                />
-              )}
-            </div>
-          ))}
-
-          {post.mediaUrls?.length > 1 && (
-            <>
-              {}
-              <div className="absolute bottom-2 left-0 right-0 flex justify-center space-x-2">
-                {post.mediaUrls?.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentMediaIndex(index)}
-                    className={`w-2 h-2 rounded-full ${
-                      index === currentMediaIndex ? "bg-blue-500" : "bg-gray-300"
-                    }`}
-                    aria-label={`Go to media ${index + 1}`}
-                  />
-                ))}
-              </div>
-            </>
           )}
         </div>
+      </div>
 
-        <div className="flex justify-between items-center w-full px-5 py-4">
-          <div className="flex items-center space-x-2">
+      {/* Media Section */}
+      <div className="relative">
+        {post.mediaUrls?.map((url, index) => (
+          <div
+            key={index}
+            className={`${index === currentMediaIndex ? "block" : "hidden"}`}
+          >
+            {renderMedia(url, post.mediaTypes?.[index])}
+          </div>
+        ))}
+
+        {post.mediaUrls?.length > 1 && (
+          <>
+            <button
+              onClick={handlePrevMedia}
+              className="absolute left-2 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-opacity"
+            >
+              <ChevronLeftIcon />
+            </button>
+            <button
+              onClick={handleNextMedia}
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-opacity"
+            >
+              <ChevronRightIcon />
+            </button>
+            <div className="absolute bottom-2 left-0 right-0 flex justify-center space-x-2">
+              {post.mediaUrls?.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentMediaIndex(index)}
+                  className={`w-2 h-2 rounded-full transition-colors ${
+                    index === currentMediaIndex ? "bg-blue-500" : "bg-gray-300"
+                  }`}
+                  aria-label={`Go to media ${index + 1}`}
+                />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Actions Section */}
+      <div className="p-4">
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center space-x-4">
             {isPostLiked ? (
               <AiFillHeart
                 onClick={handleUnLikePost}
-                className="text-2xl hover:opacity-50 cursor-pointer text-red-600"
+                className="text-2xl cursor-pointer text-red-500 hover:text-red-600 transition-colors"
               />
             ) : (
               <AiOutlineHeart
                 onClick={handleLikePost}
-                className="text-2xl hover:opacity-50 cursor-pointer"
+                className="text-2xl cursor-pointer hover:text-red-500 transition-colors"
               />
             )}
             <FaRegComment
               onClick={handleOpenCommentModal}
-              className="text-xl hover:opacity-50 cursor-pointer"
+              className="text-xl cursor-pointer hover:text-blue-500 transition-colors"
             />
-            <RiSendPlaneLine className="text-xl hover:opacity-50 cursor-pointer" />
+            <RiSendPlaneLine className="text-xl cursor-pointer hover:text-blue-500 transition-colors" />
           </div>
-          <div className="cursor-pointer">
+          <div>
             {isSaved ? (
               <BsBookmarkFill
                 onClick={handleUnSavePost}
-                className="text-xl"
+                className="text-xl cursor-pointer text-blue-500 hover:text-blue-600 transition-colors"
               />
             ) : (
               <BsBookmark
                 onClick={handleSavePost}
-                className="text-xl hover:opacity-50 cursor-pointer"
+                className="text-xl cursor-pointer hover:text-blue-500 transition-colors"
               />
             )}
           </div>
         </div>
-        <div className="w-full py-2 px-5">
-          {numberOfLikes > 0 && (
-            <p className="text-sm">{numberOfLikes} likes</p>
-          )}
-          <p className="py-2">
-            <span className="font-semibold">{post?.user?.username}</span> {post.caption}
-          </p>
-          {post?.comments?.length > 0 && (
-            <p
-              onClick={handleOpenCommentModal}
-              className="opacity-50 text-sm py-2 -z-0 cursor-pointer"
+
+        {/* Likes Count */}
+        {numberOfLikes > 0 && (
+          <p className="font-semibold text-sm mb-2">{numberOfLikes} likes</p>
+        )}
+
+        {/* Caption */}
+        <p className="text-sm mb-2">
+          <span className="font-semibold mr-2">{post?.user?.username}</span>
+          {post.caption}
+        </p>
+
+        {/* Comments Preview */}
+        {post?.comments?.length > 0 && (
+          <button
+            onClick={handleOpenCommentModal}
+            className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+          >
+            View all {post?.comments?.length} comments
+          </button>
+        )}
+
+        {/* Comment Input */}
+        <div className="mt-4 flex items-center space-x-2">
+          <BsEmojiSmile className="text-gray-500" />
+          <input
+            onKeyPress={handleOnEnterPress}
+            onChange={handleCommentInputChange}
+            value={commentContent}
+            className="flex-1 border-none focus:ring-0 text-sm"
+            type="text"
+            placeholder="Add a comment..."
+          />
+          {commentContent && (
+            <button
+              onClick={handleAddComment}
+              className="text-blue-500 font-semibold text-sm hover:text-blue-600 transition-colors"
             >
-              View all {post?.comments?.length} comments
-            </p>
+              Post
+            </button>
           )}
-        </div>
-        <div className="border border-t w-full">
-          <div className="w-full flex items-center px-5">
-            <BsEmojiSmile />
-            <input
-              onKeyPress={handleOnEnterPress}
-              onChange={handleCommentInputChange}
-              value={commentContent}
-              className="commentInput"
-              type="text"
-              placeholder="Add a comment..."
-            />
-          </div>
         </div>
       </div>
 

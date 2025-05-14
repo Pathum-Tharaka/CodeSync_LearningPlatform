@@ -12,7 +12,13 @@ import {
   Form,
   Input,
   message,
-  Select
+  Select,
+  Progress,
+  DatePicker,
+  Space,
+  Card,
+  Timeline,
+  Tag
 } from "antd";
 import {
   PlusOutlined,
@@ -21,31 +27,48 @@ import {
   FileTextOutlined,
   ToolOutlined,
   RocketOutlined,
+  ClockCircleOutlined,
+  TrophyOutlined
 } from "@ant-design/icons";
+import moment from 'moment';
 import "./LearningProgress.css";
 
 const { Option } = Select;
+const { RangePicker } = DatePicker;
 
 const LearningProgress = () => {
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
-
   const { updates } = useSelector((store) => store.learningProgress);
-
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editing, setEditing] = useState(null);
 
   useEffect(() => {
+    console.log("Fetching progress updates...");
     dispatch(getProgressUpdates(token));
   }, [dispatch]);
 
+  useEffect(() => {
+    console.log("Current updates:", updates);
+  }, [updates]);
+
   const handleSubmit = (values) => {
+    console.log("Form values:", values);
+    const formattedValues = {
+      ...values,
+      startDate: values.duration[0].toISOString(),
+      endDate: values.duration[1].toISOString(),
+      duration: values.duration[1].diff(values.duration[0], 'days')
+    };
+    delete formattedValues.duration;
+    console.log("Formatted values:", formattedValues);
+
     if (editing) {
-      dispatch(updateProgressUpdate(token, editing.id, values));
+      dispatch(updateProgressUpdate(token, editing.id, formattedValues));
       message.success("Update edited successfully!");
     } else {
-      dispatch(createProgressUpdate(token, values));
+      dispatch(createProgressUpdate(token, formattedValues));
       message.success("New update added!");
     }
     form.resetFields();
@@ -58,18 +81,43 @@ const LearningProgress = () => {
       form.setFieldsValue({
         title: "Completed a Tutorial",
         content: "Finished learning [topic] tutorial.",
+        milestone: "Beginner",
+        duration: [moment(), moment().add(7, 'days')]
       });
     } else if (value === "skill") {
       form.setFieldsValue({
         title: "Learned a New Skill",
         content: "I learned how to [skill].",
+        milestone: "Intermediate",
+        duration: [moment(), moment().add(14, 'days')]
       });
     } else if (value === "project") {
       form.setFieldsValue({
         title: "Built a Project",
         content: "I developed a project using [technology].",
+        milestone: "Advanced",
+        duration: [moment(), moment().add(30, 'days')]
       });
     }
+  };
+
+  const getMilestoneColor = (milestone) => {
+    switch (milestone?.toLowerCase()) {
+      case 'beginner': return 'green';
+      case 'intermediate': return 'blue';
+      case 'advanced': return 'purple';
+      default: return 'default';
+    }
+  };
+
+  const calculateProgress = (startDate, endDate) => {
+    if (!startDate || !endDate) return 0;
+    const start = moment(startDate);
+    const end = moment(endDate);
+    const now = moment();
+    const total = end.diff(start, 'days');
+    const elapsed = now.diff(start, 'days');
+    return Math.min(Math.max(Math.round((elapsed / total) * 100), 0), 100);
   };
 
   return (
@@ -86,34 +134,70 @@ const LearningProgress = () => {
       </div>
 
       <div className="updates-container">
-        {updates.map((item) => (
-          <div className="update-card" key={item.id}>
-            <div className="update-info">
-              <h3 className="update-title">{item.title}</h3>
-              <p className="update-content">{item.content}</p>
-            </div>
-            <div className="update-actions">
-              <Button
-                icon={<EditOutlined />}
-                size="small"
-                onClick={() => {
-                  setEditing(item);
-                  form.setFieldsValue(item);
-                  setIsModalOpen(true);
-                }}
-              />
-              <Button
-                icon={<DeleteOutlined />}
-                size="small"
-                danger
-                onClick={() => {
-                  dispatch(deleteProgressUpdate(token, item.id));
-                  message.success("Update deleted!");
-                }}
-              />
-            </div>
+        {updates && updates.length > 0 ? (
+          updates.map((item) => (
+            <Card key={item.id} className="update-card">
+              <div className="update-info">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="update-title">{item.title}</h3>
+                    <p className="update-content">{item.content}</p>
+                  </div>
+                  <Tag color={getMilestoneColor(item.milestone)} icon={<TrophyOutlined />}>
+                    {item.milestone || 'Beginner'}
+                  </Tag>
+                </div>
+                
+                <div className="mt-4">
+                  <div className="flex items-center mb-2">
+                    <ClockCircleOutlined className="mr-2" />
+                    <span className="text-gray-600">
+                      {moment(item.startDate).format('MMM D, YYYY')} - {moment(item.endDate).format('MMM D, YYYY')}
+                    </span>
+                  </div>
+                  
+                  <Progress 
+                    percent={calculateProgress(item.startDate, item.endDate)} 
+                    status={calculateProgress(item.startDate, item.endDate) >= 100 ? "success" : "active"}
+                    strokeColor={{
+                      '0%': '#108ee9',
+                      '100%': '#87d068',
+                    }}
+                  />
+                </div>
+              </div>
+              
+              <div className="update-actions">
+                <Button
+                  icon={<EditOutlined />}
+                  size="small"
+                  onClick={() => {
+                    setEditing(item);
+                    form.setFieldsValue({
+                      ...item,
+                      duration: [moment(item.startDate), moment(item.endDate)]
+                    });
+                    setIsModalOpen(true);
+                  }}
+                />
+                <Button
+                  icon={<DeleteOutlined />}
+                  size="small"
+                  danger
+                  onClick={() => {
+                    dispatch(deleteProgressUpdate(token, item.id));
+                    message.success("Update deleted!");
+                  }}
+                />
+              </div>
+            </Card>
+          ))
+        ) : (
+          <div className="text-center py-12 bg-white rounded-xl shadow-sm">
+            <h3 className="text-xl font-semibold text-gray-600">No progress updates yet</h3>
+            <p className="text-gray-500 mt-2">Start tracking your learning progress by adding an update</p>
           </div>
-        ))}
+        )}
       </div>
 
       <Modal
@@ -125,6 +209,7 @@ const LearningProgress = () => {
         }}
         onOk={() => form.submit()}
         title={editing ? "Edit Update" : "Add Progress Update"}
+        width={600}
       >
         <Form form={form} onFinish={handleSubmit} layout="vertical">
           {!editing && (
@@ -160,6 +245,29 @@ const LearningProgress = () => {
             rules={[{ required: true, message: "Please enter details" }]}
           >
             <Input.TextArea rows={4} placeholder="What did you learn or complete?" />
+          </Form.Item>
+
+          <Form.Item
+            name="milestone"
+            label="Milestone Level"
+            rules={[{ required: true, message: "Please select a milestone level" }]}
+          >
+            <Select placeholder="Select milestone level">
+              <Option value="Beginner">Beginner</Option>
+              <Option value="Intermediate">Intermediate</Option>
+              <Option value="Advanced">Advanced</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            name="duration"
+            label="Duration"
+            rules={[{ required: true, message: "Please select duration" }]}
+          >
+            <RangePicker 
+              style={{ width: '100%' }}
+              format="YYYY-MM-DD"
+            />
           </Form.Item>
         </Form>
       </Modal>

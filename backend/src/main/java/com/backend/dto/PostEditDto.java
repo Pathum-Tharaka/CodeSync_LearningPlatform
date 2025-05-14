@@ -6,14 +6,16 @@ public class PostEditDto {
     private String caption;
     private String location;
     private List<String> mediaUrls;
+    private List<String> mediaTypes;
 
     public PostEditDto() {
     }
 
-    public PostEditDto(String caption, String location, List<String> mediaUrls) {
+    public PostEditDto(String caption, String location, List<String> mediaUrls, List<String> mediaTypes) {
         this.caption = caption;
         this.location = location;
         this.mediaUrls = mediaUrls;
+        this.mediaTypes = mediaTypes;
     }
 
     public String getCaption() {
@@ -38,5 +40,13 @@ public class PostEditDto {
 
     public void setMediaUrls(List<String> mediaUrls) {
         this.mediaUrls = mediaUrls;
+    }
+
+    public List<String> getMediaTypes() {
+        return mediaTypes;
+    }
+
+    public void setMediaTypes(List<String> mediaTypes) {
+        this.mediaTypes = mediaTypes;
     }
 }
