@@ -12,7 +12,7 @@ import { FaPhotoVideo } from "react-icons/fa";
 import "./CreatePostModal.css";
 import { GoLocation } from "react-icons/go";
 import { GrEmoji } from "react-icons/gr";
-import { Button } from "@chakra-ui/button";
+import { Button, IconButton } from "@chakra-ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost, findPostByIdAction } from "../../../Redux/Post/Action";
 import { uploadToCloudinary } from "../../../Config/UploadToCloudinary";
@@ -21,7 +21,7 @@ import SpinnerCard from "../../Spinner/Spinner";
 import { useParams } from "react-router-dom";
 import { editPOst } from "../../../Redux/Post/Action";
 import { useToast } from "@chakra-ui/react";
-
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
 const EditPostModal = ({ isOpen, onClose, post }) => {
   const dispatch = useDispatch();
@@ -30,11 +30,13 @@ const EditPostModal = ({ isOpen, onClose, post }) => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
   const fileInputRef = useRef(null);
+  const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
 
   const [postData, setPostData] = useState({
     caption: "",
     location: "",
     mediaUrls: [],
+    mediaTypes: [],
     id: null
   });
 
@@ -44,6 +46,7 @@ const EditPostModal = ({ isOpen, onClose, post }) => {
         caption: post.caption || "",
         location: post.location || "",
         mediaUrls: post.mediaUrls || [],
+        mediaTypes: post.mediaTypes || [],
         id: post.id
       });
     }
@@ -54,53 +57,72 @@ const EditPostModal = ({ isOpen, onClose, post }) => {
     setPostData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleImageClick = () => {
+  const handleMediaClick = () => {
     fileInputRef.current?.click();
   };
 
-  const handleImageChange = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (file.type.startsWith('image/')) {
-        setLoading(true);
-        try {
-          const imageUrl = await uploadToCloudinary(file);
-          if (imageUrl) {
-            setPostData(prev => ({
-              ...prev,
-              mediaUrls: [imageUrl]
-            }));
-            toast({
-              title: "Image uploaded successfully",
-              status: "success",
-              duration: 3000,
-              isClosable: true,
-            });
-          } else {
-            throw new Error("Failed to get image URL");
-          }
-        } catch (error) {
-          console.error("Error uploading image:", error);
-          toast({
-            title: "Failed to upload image",
-            description: "Please try again",
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-          });
-        } finally {
-          setLoading(false);
+  const handleMediaChange = async (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
+
+    setLoading(true);
+    try {
+      const uploadPromises = files.map(async file => {
+        const isImage = file.type.startsWith('image/');
+        const isVideo = file.type.startsWith('video/');
+        
+        if (!isImage && !isVideo) {
+          throw new Error("Please select only image or video files");
         }
-      } else {
-        toast({
-          title: "Invalid file type",
-          description: "Please select an image file",
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-        });
-      }
+        
+        if (isVideo && file.size > 100 * 1024 * 1024) {
+          throw new Error("Video size should be less than 100MB");
+        }
+
+        const url = await uploadToCloudinary(file);
+        const type = isImage ? "image" : "video";
+        return { url, type };
+      });
+
+      const results = await Promise.all(uploadPromises);
+      const validResults = results.filter(result => result.url);
+
+      setPostData(prev => ({
+        ...prev,
+        mediaUrls: [...prev.mediaUrls, ...validResults.map(r => r.url)],
+        mediaTypes: [...prev.mediaTypes, ...validResults.map(r => r.type)]
+      }));
+
+      toast({
+        title: "Media uploaded successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    } catch (error) {
+      console.error("Error uploading media:", error);
+      toast({
+        title: "Upload failed",
+        description: error.message || "Please try again",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const handleNextMedia = () => {
+    setCurrentMediaIndex(prev => 
+      prev === postData.mediaUrls.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  const handlePrevMedia = () => {
+    setCurrentMediaIndex(prev => 
+      prev === 0 ? postData.mediaUrls.length - 1 : prev - 1
+    );
   };
 
   const handleSubmit = () => {
@@ -112,7 +134,8 @@ const EditPostModal = ({ isOpen, onClose, post }) => {
         id: postData.id,
         caption: postData.caption,
         location: postData.location,
-        mediaUrls: postData.mediaUrls
+        mediaUrls: postData.mediaUrls,
+        mediaTypes: postData.mediaTypes
       }
     };
 
@@ -120,16 +143,35 @@ const EditPostModal = ({ isOpen, onClose, post }) => {
     onClose();
   };
 
+  const renderMedia = (url, type) => {
+    if (type === "video") {
+      return (
+        <video
+          src={url}
+          controls
+          className="max-h-[70vh] w-full object-contain"
+        />
+      );
+    }
+    return (
+      <img
+        src={url}
+        alt="post"
+        className="max-h-[70vh] w-full object-contain"
+      />
+    );
+  };
+
   return (
-    <Modal size={"4xl"} isOpen={isOpen} onClose={onClose}>
+    <Modal size={"5xl"} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent>
-        <div className="flex justify-between py-1 px-10 items-center">
-          <p className="font-semibold">Edit Post</p>
+      <ModalContent className="rounded-xl shadow-xl overflow-hidden">
+        <div className="flex justify-between py-4 px-6 border-b">
+          <h2 className="text-xl font-bold">Edit Post</h2>
           <Button
             onClick={handleSubmit}
             colorScheme="blue"
-            size={"sm"}
+            size="md"
             isLoading={loading}
             loadingText="Updating..."
           >
@@ -137,78 +179,141 @@ const EditPostModal = ({ isOpen, onClose, post }) => {
           </Button>
         </div>
 
-        <hr className="hrLine" />
+        <ModalBody className="p-0">
+          <div className="flex h-[70vh]">
+            {/* Left Side: Media Preview */}
+            <div className="w-2/3 relative bg-gray-50">
+              {postData.mediaUrls?.length > 0 ? (
+                <div className="relative w-full h-full">
+                  {renderMedia(
+                    postData.mediaUrls[currentMediaIndex],
+                    postData.mediaTypes[currentMediaIndex]
+                  )}
 
-        <ModalBody>
-          <div className="modalBodyBox flex h-[70vh] justify-between">
-            <div className="w-[50%] flex flex-col justify-center items-center relative">
-              <div 
-                className="w-full h-full flex items-center justify-center relative group cursor-pointer"
-                onClick={handleImageClick}
-              >
-                {postData.mediaUrls?.length > 0 ? (
-                  <>
-                    <img
-                      className="max-h-[70vh] object-contain"
-                      src={postData.mediaUrls[0]}
-                      alt="post"
+                  {/* Add Media Button */}
+                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+                    <label
+                      htmlFor="file-upload"
+                      className="cursor-pointer inline-block bg-blue-500 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-600 transition"
+                    >
+                      Add More Media
+                    </label>
+                    <input
+                      type="file"
+                      id="file-upload"
+                      accept="image/*,video/*"
+                      multiple
+                      onChange={handleMediaChange}
+                      ref={fileInputRef}
+                      className="hidden"
                     />
-                    <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                      <p className="text-white text-center">Click to change image</p>
-                    </div>
-                  </>
-                ) : (
-                  <div className="flex flex-col items-center">
-                    <FaPhotoVideo className="text-3xl mb-2" />
-                    <p>Click here to upload photo</p>
                   </div>
-                )}
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  ref={fileInputRef}
-                  className="hidden"
-                />
-              </div>
+
+                  {postData.mediaUrls.length > 1 && (
+                    <>
+                      <IconButton
+                        icon={<ChevronLeftIcon />}
+                        position="absolute"
+                        left="2"
+                        top="50%"
+                        transform="translateY(-50%)"
+                        onClick={handlePrevMedia}
+                        aria-label="Previous media"
+                      />
+                      <IconButton
+                        icon={<ChevronRightIcon />}
+                        position="absolute"
+                        right="2"
+                        top="50%"
+                        transform="translateY(-50%)"
+                        onClick={handleNextMedia}
+                        aria-label="Next media"
+                      />
+                    </>
+                  )}
+
+                  {/* Media type indicator */}
+                  <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm">
+                    {postData.mediaTypes[currentMediaIndex] === "video" ? "Video" : "Photo"}
+                  </div>
+
+                  {/* Media count indicator */}
+                  <div className="absolute top-2 left-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm">
+                    {currentMediaIndex + 1}/{postData.mediaUrls.length}
+                  </div>
+
+                  {/* Dots for slide indicator */}
+                  <div className="absolute bottom-2 w-full flex justify-center space-x-2">
+                    {postData.mediaUrls.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentMediaIndex(index)}
+                        className={`w-2 h-2 rounded-full cursor-pointer ${
+                          index === currentMediaIndex ? "bg-blue-500" : "bg-gray-300"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div 
+                  className="w-full h-full flex items-center justify-center cursor-pointer"
+                  onClick={handleMediaClick}
+                >
+                  <div className="text-center">
+                    <FaPhotoVideo className="text-4xl mx-auto mb-2 text-gray-500" />
+                    <p className="text-gray-500">Click to add photos or videos</p>
+                    <input
+                      type="file"
+                      accept="image/*,video/*"
+                      multiple
+                      onChange={handleMediaChange}
+                      ref={fileInputRef}
+                      className="hidden"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
-            <div className="w-[1px] border h-full"></div>
-            <div className="w-[50%]">
-              <div className="flex items-center px-2">
+
+            {/* Right Side: Post Details */}
+            <div className="w-1/3 border-l p-4 flex flex-col">
+              <div className="flex items-center mb-4">
                 <img
-                  className="w-7 h-7 rounded-full"
+                  className="w-8 h-8 rounded-full mr-2"
                   src={user?.reqUser?.image || "https://cdn.pixabay.com/photo/2023/02/28/03/42/ibex-7819817_640.jpg"}
-                  alt=""
+                  alt="user"
                 />
-                <p className="font-semibold ml-4">{user?.reqUser?.username}</p>
+                <span className="font-semibold">{user?.reqUser?.username}</span>
               </div>
-              <div className="px-2">
-                <textarea
-                  className="captionInput"
-                  placeholder="Write a caption..."
-                  name="caption"
-                  rows="8"
-                  value={postData.caption}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="flex justify-between px-2">
+
+              <textarea
+                name="caption"
+                placeholder="Write a caption..."
+                rows={6}
+                className="w-full p-3 rounded-md border resize-none focus:outline-none focus:ring-2 focus:ring-blue-300"
+                value={postData.caption}
+                onChange={handleInputChange}
+              />
+
+              <div className="flex justify-between mt-1 text-sm text-gray-500">
                 <GrEmoji />
-                <p className="opacity-70">{postData.caption?.length}/2,200</p>
+                <span>{postData.caption?.length}/2,200</span>
               </div>
-              <hr />
-              <div className="p-2 flex justify-between items-center">
-                <input
-                  className="locationInput"
-                  type="text"
-                  placeholder="Add location"
-                  name="location"
-                  value={postData.location}
-                  onChange={handleInputChange}
-                />
-                <GoLocation />
+
+              <div className="mt-4">
+                <div className="relative flex items-center">
+                  <input
+                    type="text"
+                    name="location"
+                    placeholder="Add location"
+                    className="w-full pr-8 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+                    value={postData.location}
+                    onChange={handleInputChange}
+                  />
+                  <GoLocation className="absolute right-2 text-gray-400" />
+                </div>
               </div>
-              <hr />
             </div>
           </div>
         </ModalBody>
